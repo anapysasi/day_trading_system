@@ -42,7 +42,7 @@ class Strategy:
         self._return = list()
         self.vol_pct_change = list()
         self.y = list()
-        self.model = LogisticRegression(solver='lbfgs', random_state=0)
+        self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
 
     def prepare_dataframe(self, original):
         self.datetime.append(original['Datetime'])
@@ -66,8 +66,8 @@ class Strategy:
         self.high_low.append(price_update['High'] - price_update['Low'])
         self.open_close.append(price_update['Open'] - price_update['Close'])
         self.Volatility.append(price_update['Volatility'])
-        self.momentum.append(price_update['Momentum'])
-        self.rsi.append(price_update['RSI'])
+        # self.momentum.append(price_update['Momentum'])
+        # self.rsi.append(price_update['RSI'])
         self.macd.append(price_update['MACD'])
         self.min5.append(price_update['5min'])
         self.min10.append(price_update['10min'])
@@ -86,28 +86,36 @@ class Strategy:
 
         if len(self.price) > 40:
             fit_x = pd.DataFrame({'Open-Close': self.open_close[30:], 'High-Low': self.high_low[30:],
-                                  'Volatility': self.Volatility[30:], 'Momentum': self.momentum[30:],
-                                  'RSI': self.rsi[30:], 'MACD': self.macd[30:], '5min': self.min5[30:],
+                                  'Volatility': self.Volatility[30:],
+                                  # 'Volatility': self.Volatility[30:], 'Momentum': self.momentum[30:], 'RSI': self.rsi[30:],
+                                  'MACD': self.macd[30:], '5min': self.min5[30:],
                                   '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
                                   'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
             fit_y = pd.DataFrame({'Predictor': self.y[30:]})
             self.model.fit(fit_x, fit_y.values.ravel())
+            # return self.model.fit(fit_x, fit_y.values.ravel())
 
     def predict(self, price_update):
         if len(self.price) > 40:
             predict_value = self.model.predict(
                 [[price_update['Open'] - price_update['Close'], price_update['High'] - price_update['Low'],
-                  price_update['Volatility'], price_update['Momentum'], price_update['RSI'], price_update['MACD'],
+                  price_update['Volatility'],  price_update['MACD'],
+                  # price_update['Volatility'], price_update['Momentum'], price_update['RSI'], price_update['MACD'],
                   price_update['5min'], price_update['10min'], price_update['30min'], price_update['Change'],
                   price_update['Return'], price_update['volume change_pct']]])
             if predict_value == 1 and self.buy:
                 self.sell = True
                 self.buy = False
+                print('BUY')
                 return DIRECTION.BUY
             elif predict_value == -1 and self.sell:
                 self.sell = False
                 self.buy = True
+                print('SELL')
                 return DIRECTION.SELL
+            else:
+                print('HOLD')
+                return DIRECTION.HOLD
 
 
 class ForLoopBackTester:
@@ -118,16 +126,11 @@ class ForLoopBackTester:
         self.list_holdings = []
         self.list_total = []
 
-        self.long_signal = False
         self.position = 0
         self.cash = 100000
         self.total = 0
         self.holdings = 0
 
-        self.market_data_count = 0
-        self.prev_price = None
-        self.statistical_model = None
-        self.historical_data = pd.DataFrame(columns=['Trade', 'Price', 'OpenClose', 'HighLow'])
         self.strategy = start
 
     def on_market_data_deceived(self, price_update):
@@ -145,10 +148,10 @@ class ForLoopBackTester:
 
     def buy_sell_or_hold_something(self, price_update, _action):
         if _action == 'buy':
-            cash_needed = 10 * price_update['Price']
+            cash_needed = 10 * price_update['Close']
             if self.cash - cash_needed >= 0:
                 print(str(price_update['date']) +
-                      " send buy order for 10 shares price=%.2f" % (price_update['Price']))
+                      " send buy order for 10 shares price=%.2f" % (price_update['Close']))
                 self.position += 10
                 self.cash -= cash_needed
             else:
@@ -158,16 +161,16 @@ class ForLoopBackTester:
             position_allowed = 10
             if self.position - position_allowed >= -position_allowed:
                 print(str(price_update['date']) +
-                      " send sell order for 10 shares price=%.2f" % (price_update['Price']))
+                      " send sell order for 10 shares price=%.2f" % (price_update['Close']))
                 self.position -= position_allowed
-                self.cash -= -position_allowed * price_update['Price']
+                self.cash -= -position_allowed * price_update['Close']
             else:
                 print('sell impossible because not enough position')
 
-        self.holdings = self.position * price_update['Price']
+        self.holdings = self.position * price_update['Close']
         self.total = (self.holdings + self.cash)
-        # print('%s total=%d, holding=%d, cash=%d' %
-        #       (str(price_update['date']),self.total, self.holdings, self.cash))
+        print('%s total=%d, holding=%d, cash=%d' %
+              (str(price_update['Datetime']), self.total, self.holdings, self.cash))
 
         self.list_position.append(self.position)
         self.list_cash.append(self.cash)
@@ -191,14 +194,30 @@ def test():
 
 if __name__ == '__main__':
 
-    aapl = pd.read_csv('aapl.csv')
-    aapl['Price'] = aapl['Close']
-    for i in range(len(aapl)):
-        price_information = aapl.iloc[i, :].to_dict()
-        naive_backtester = ForLoopBackTester(Strategy())
-        _action = naive_backtester.on_market_data_deceived(price_information)
-        naive_backtester.buy_sell_or_hold_something(price_information, _action)
-        # print(price_information, )
+    reader = pd.read_csv('OneDayData.csv')
+    symbols = list('FB')
+    num_to_select = 1
+
+    N = len(reader[reader['Symbol'] == 'FB'])
+    for j in range(N):
+        for i in range(num_to_select):
+            send = reader[reader['Symbol'] == 'FB']
+            send = send.iloc[j]
+            send = send.to_dict()
+
+            naive_backtester = ForLoopBackTester(Strategy())
+            _action = naive_backtester.on_market_data_deceived(send)
+            naive_backtester.buy_sell_or_hold_something(send, _action)
+            # print(price_information, )
+
+    # aapl = pd.read_csv('aapl.csv')
+    # aapl['Price'] = aapl['Close']
+    # for i in range(len(aapl)):
+    #     price_information = aapl.iloc[i, :].to_dict()
+    #     naive_backtester = ForLoopBackTester(Strategy())
+    #     _action = naive_backtester.on_market_data_deceived(price_information)
+    #     naive_backtester.buy_sell_or_hold_something(price_information, _action)
+    #     print(price_information, )
 
     # for _ in range(nb_of_rows):
     #     row = input().strip().split(',')
