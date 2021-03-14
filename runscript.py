@@ -10,7 +10,6 @@ from sklearn.linear_model import LogisticRegression
 from feature_engineering import features_df
 
 
-
 class DIRECTION:
     BUY = 1
     SELL = -1
