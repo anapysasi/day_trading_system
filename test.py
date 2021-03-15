@@ -70,6 +70,9 @@ def fit(original):
     change.append(price_update['Change'])
     _return.append(price_update['Return'])
     vol_pct_change.append(price_update['volume change_pct'])
+    momentum.append(price_update['Momentum'])
+    rsi.append(price_update['RSI'])
+
 
     if len(price) > 1:
         if price[len(price) - 1] > price[len(price) - 2]:
@@ -83,11 +86,11 @@ def fit(original):
         fit_x = pd.DataFrame({'Open-Close': open_close[30:], 'High-Low': high_low[30:],
                               'Volatility': Volatility[30:], 'MACD': macd[30:], '5min': min5[30:],
                               '10min': min10[30:], '30min': min30[30:], 'Change': change[30:],
-                              'Return': _return[30:], 'VolChangePct': vol_pct_change[30:]})
+                              'Return': _return[30:], 'VolChangePct': vol_pct_change[30:],
+                              'Momentum': momentum[30:], 'RSI': rsi[30:]})
         fit_y = pd.DataFrame({'Predictor': y[30:]})
         model.fit(fit_x, fit_y.values.ravel())
         return model
-
 
 def predict(price_update):
     global buy
