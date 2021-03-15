@@ -61,8 +61,7 @@ class Strategy:
 
     def fit(self, original):
         price_update = self.getting_features(original)
-
-        # self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
+ 
         self.price.append(price_update['Close'])
         self.high_low.append(price_update['High'] - price_update['Low'])
         self.open_close.append(price_update['Open'] - price_update['Close'])
