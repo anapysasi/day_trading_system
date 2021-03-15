@@ -66,8 +66,8 @@ class Strategy:
         self.high_low.append(price_update['High'] - price_update['Low'])
         self.open_close.append(price_update['Open'] - price_update['Close'])
         self.Volatility.append(price_update['Volatility'])
-        # self.momentum.append(price_update['Momentum'])
-        # self.rsi.append(price_update['RSI'])
+        self.momentum.append(price_update['Momentum'])
+        self.rsi.append(price_update['RSI'])
         self.macd.append(price_update['MACD'])
         self.min5.append(price_update['5min'])
         self.min10.append(price_update['10min'])
@@ -86,9 +86,8 @@ class Strategy:
 
         if len(self.price) > 40:
             fit_x = pd.DataFrame({'Open-Close': self.open_close[30:], 'High-Low': self.high_low[30:],
-                                  'Volatility': self.Volatility[30:],
-                                  # 'Momentum': self.momentum[30:], 'RSI': self.rsi[30:],
-                                  'MACD': self.macd[30:], '5min': self.min5[30:],
+                                  'Volatility': self.Volatility[30:], 'RSI': self.rsi[30:],
+                                  'Momentum': self.momentum[30:], 'MACD': self.macd[30:], '5min': self.min5[30:],
                                   '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
                                   'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
             fit_y = pd.DataFrame({'Predictor': self.y[30:]})
@@ -99,8 +98,7 @@ class Strategy:
         if len(self.price) > 40:
             predict_value = self.model.predict(
                 [[price_update['Open'] - price_update['Close'], price_update['High'] - price_update['Low'],
-                  price_update['Volatility'],  price_update['MACD'],
-                  # price_update['Volatility'], price_update['Momentum'], price_update['RSI'], price_update['MACD'],
+                  price_update['Volatility'],  price_update['MACD'], price_update['RSI'], price_update['Momentum'],
                   price_update['5min'], price_update['10min'], price_update['30min'], price_update['Change'],
                   price_update['Return'], price_update['volume change_pct']]])
             if predict_value == 1 and self.buy:
