@@ -1,7 +1,3 @@
-import pandas as pd
-import trading_strategy as ts
-
-
 class DIRECTION:
 
     BUY = 1
@@ -9,7 +5,7 @@ class DIRECTION:
     HOLD = 0
 
 
-class ForLoopBackTester:
+class MarketActions:
 
     def __init__(self, start=None):
         self.list_position = []
@@ -67,21 +63,3 @@ class ForLoopBackTester:
         self.list_cash.append(self.cash)
         self.list_holdings.append(self.holdings)
         self.list_total.append(self.holdings + self.cash)
-
-
-if __name__ == '__main__':
-    strategy = ts.Strategy()
-    naive_backtester = ForLoopBackTester(strategy)
-    reader = pd.read_csv('OneDayData.csv')
-    symbols = list('FB')
-    num_to_select = 1
-
-    N = len(reader[reader['Symbol'] == 'FB'])
-    for j in range(N):
-        for i in range(num_to_select):
-            send = reader[reader['Symbol'] == 'FB']
-            send = send.iloc[j]
-            send = send.to_dict()
-
-            _action = naive_backtester.on_market_data_received(send)
-            naive_backtester.buy_sell_or_hold_something(send, _action)

@@ -86,7 +86,7 @@ class ThreadedServer(object):
     def convert_string_to_json(self, st):
         return json.dumps(st, cls=NpEncoder)
 
-    def send_stream_to_client(self,client,buffer, num_stocks):
+    def send_stream_to_client(self, client, buffer, num_stocks):
         counter = 0
         for i in buffer:
             print(i)
@@ -116,7 +116,7 @@ class ThreadedServer(object):
             length = []
             for i in range(num_to_select):
                 n = len(reader[reader['Symbol'] == list_of_random_items[i]])
-                length.append(N)
+                length.append(n)
 
             n = min(length)
             out = []
