@@ -92,10 +92,8 @@ class Strategy:
                                   'MACD': self.macd[30:], '5min': self.min5[30:],
                                   '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
                                   'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
-            # print(fit_x)
             fit_y = pd.DataFrame({'Predictor': self.y[30:]})
             self.model.fit(fit_x, fit_y.values.ravel())
-            # return self.model
 
     def predict(self, original):
         price_update = self.getting_features(original)
@@ -178,49 +176,21 @@ class ForLoopBackTester:
         self.list_total.append(self.holdings + self.cash)
 
 
-# naive_backtester = None
-
-
 if __name__ == '__main__':
     naive_backtester = ForLoopBackTester(Strategy())
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list('MSFT')
+    symbols = list('FB')
     num_to_select = 1
 
-    N = len(reader[reader['Symbol'] == 'MSFT'])
+    N = len(reader[reader['Symbol'] == 'FB'])
     for j in range(N):
         for i in range(num_to_select):
-            send = reader[reader['Symbol'] == 'MSFT']
+            send = reader[reader['Symbol'] == 'FB']
             send = send.iloc[j]
             send = send.to_dict()
 
 
             _action = naive_backtester.on_market_data_deceived(send)
             naive_backtester.buy_sell_or_hold_something(send, _action)
-            # print(price_information, )
 
-
-# def test():
-#     """
-#     Guys are we using this function test at all???
-#     """
-#     global naive_backtester
-#     global nb_of_rows
-#     nb_of_rows = 600
-#     naive_backtester = ForLoopBackTester(Strategy())
-
-#
-# class System:
-#
-#     def __init__(self, start=None):
-#
-#         self.position = 0
-#         self.cash = 100000
-#         self.total = 0
-#         self.holdings = 0
-#         self.strategy = start
-#
-#     def transaction(self, price_update):
-#         if self.strategy:
-#             self.strategy.fit(price_update)
-#             predicted_value = self.strategy.predict(price_update)
+            
