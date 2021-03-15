@@ -1,5 +1,4 @@
 import socket
-import sys
 
 HOST, PORT = "localhost", 9995
 data = "5"

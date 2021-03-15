@@ -1,7 +1,5 @@
 import socket
 import threading
-from functools import reduce
-import csv
 import json
 import argparse
 import sys
@@ -10,7 +8,7 @@ import datetime
 import pandas as pd
 import numpy as np
 import random
-from collections import defaultdict
+
 
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -23,11 +21,12 @@ class NpEncoder(json.JSONEncoder):
         else:
             return super(NpEncoder, self).default(obj)
 
+
 class ThreadedServer(object):
     def __init__(self, host, opt):
         self.environment = {}
-        self.environment['NoMode'] = {'points' : 0}
-        self.environment['Occupancy'] = {'occupancy' : 0, 'points' : 0}
+        self.environment['NoMode'] = {'points': 0}
+        self.environment['Occupancy'] = {'occupancy': 0, 'points': 0}
         self.host = host
         self.port = opt.port
         self.opt = opt
@@ -42,8 +41,8 @@ class ThreadedServer(object):
         while True:
             client, address = self.sock.accept()
             client.settimeout(500)
-            threading.Thread(target = self.listenToClient,args = (client,address)).start()
-            threading.Thread(target = self.sendCSVfile,args = (client,)).start()
+            threading.Thread(target=self.listen_to_client, args=(client, address)).start()
+            threading.Thread(target=self.send_csv_file, args=(client,)).start()
 
     def handle_client_answer(self, obj):
         if self.opt.mode is not None and self.opt.mode == 'Occupancy':
@@ -56,7 +55,7 @@ class ThreadedServer(object):
             self.lock.release()
         return
 
-    def listenToClient(self, client, address):
+    def listen_to_client(self, client, address):
         size = 1024
         while True:
             try:
@@ -76,32 +75,23 @@ class ThreadedServer(object):
                 client.close()
                 return False
 
-    def handleCustomData(self,buffer):
-        if self.opt.mode is not None and self.opt.mode=='Occupancy':
+    def handle_custom_data(self, buffer):
+        if self.opt.mode is not None and self.opt.mode == 'Occupancy':
             self.lock.acquire()
-            buffer['date']=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            self.state['occupancy']= int(buffer['Occupancy'])
-            buffer['Occupancy']=-1
+            buffer['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.state['occupancy'] = int(buffer['Occupancy'])
+            buffer['Occupancy'] = -1
             self.lock.release()
 
-    def convertStringToJSON(self,st):
+    def convert_string_to_json(self, st):
         return json.dumps(st, cls=NpEncoder)
 
-    def handleCustomData(self,buffer):
-        if self.opt.mode is not None and self.opt.mode=='Occupancy':
-            self.lock.acquire()
-            buffer['date']=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            self.state['occupancy']= int(buffer['Occupancy'])
-            buffer['Occupancy']=-1
-            self.lock.release()
-
-    def sendStreamToClient(self,client,buffer, num_stocks):
+    def send_stream_to_client(self,client,buffer, num_stocks):
         counter = 0
         for i in buffer:
-            #self.handleCustomData(i)
             print(i)
             try:
-                client.send((self.convertStringToJSON(i)+'\n').encode('utf-8'))
+                client.send((self.convert_string_to_json(i)+'\n').encode('utf-8'))
                 counter += 1
                 if counter == num_stocks:
                     time.sleep(self.opt.interval)
@@ -110,13 +100,12 @@ class ThreadedServer(object):
                 print('End of stream')
                 return False
         time.sleep(self.opt.interval)
-        client.send((self.convertStringToJSON(self.state) + '\n').encode('utf-8'))
+        client.send((self.convert_string_to_json(self.state) + '\n').encode('utf-8'))
         return False
 
-    def sendCSVfile(self, client):
+    def send_csv_file(self, client):
         for f in self.opt.files:
             print('reading file %s...' % f)
-            # csvfile = open(f, 'r')
             reader = pd.read_csv(f)
             # Lets get the symbols as a list
             symbols = list(set(np.array(reader['Symbol'])))
@@ -126,18 +115,19 @@ class ThreadedServer(object):
             list_of_random_items = random.sample(symbols, num_to_select)
             length = []
             for i in range(num_to_select):
-                N = len(reader[reader['Symbol'] == list_of_random_items[i]])
+                n = len(reader[reader['Symbol'] == list_of_random_items[i]])
                 length.append(N)
 
-            N = min(length)
+            n = min(length)
             out = []
 
-            for j in range(N):
+            for j in range(n):
                 for i in range(num_to_select):
                     send = reader[reader['Symbol'] == list_of_random_items[i]]
                     send = send.iloc[j]
                     out.append(send.to_dict())
-            self.sendStreamToClient(client, out, num_to_select)
+            self.send_stream_to_client(client, out, num_to_select)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(usage='usage: tcp_server -p port [-f -m]')
@@ -153,9 +143,5 @@ if __name__ == "__main__":
     if not opt.port:
         parser.error('Port not given')
 
-    # Code for Terminal: python tcp_server.py -p 9999 -f finance.csv
-
-    # Added line of code
-    # print(ThreadedServer('127.0.0.1', opt).sendCSVfile())
-
+    # Code for Terminal: python tcp_server.py -p 9995 -f OneDayData.csv -t 1 -s 3
     ThreadedServer('127.0.0.1', opt).listen()
