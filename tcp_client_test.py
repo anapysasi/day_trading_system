@@ -26,7 +26,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         for i in range(len(message)):
             element = message[i].split('\n')
             for j in element:
-                if len(j) > 1:
+                if len(j) > 65:
                     received.append(j)
 
         # applies market actions on each message in list
