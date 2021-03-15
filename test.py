@@ -116,5 +116,5 @@ for j in range(N):
         send = reader[reader['Symbol'] == 'FB']
         send = send.iloc[j]
         send = send.to_dict()
-        data_df = predict(send)
+        data_df = getting_features(send)
         print(data_df)

@@ -62,6 +62,7 @@ class Strategy:
     def fit(self, original):
         price_update = self.getting_features(original)
 
+        # self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
         self.price.append(price_update['Close'])
         self.high_low.append(price_update['High'] - price_update['Low'])
         self.open_close.append(price_update['Open'] - price_update['Close'])
@@ -91,11 +92,13 @@ class Strategy:
                                   'MACD': self.macd[30:], '5min': self.min5[30:],
                                   '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
                                   'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
+            # print(fit_x)
             fit_y = pd.DataFrame({'Predictor': self.y[30:]})
             self.model.fit(fit_x, fit_y.values.ravel())
-            # return self.model.fit(fit_x, fit_y.values.ravel())
+            # return self.model
 
-    def predict(self, price_update):
+    def predict(self, original):
+        price_update = self.getting_features(original)
         if len(self.price) > 40:
             predict_value = self.model.predict(
                 [[price_update['Open'] - price_update['Close'], price_update['High'] - price_update['Low'],
@@ -106,15 +109,12 @@ class Strategy:
             if predict_value == 1 and self.buy:
                 self.sell = True
                 self.buy = False
-                print('BUY')
                 return DIRECTION.BUY
             elif predict_value == -1 and self.sell:
                 self.sell = False
                 self.buy = True
-                print('SELL')
                 return DIRECTION.SELL
             else:
-                print('HOLD')
                 return DIRECTION.HOLD
 
 
@@ -150,7 +150,7 @@ class ForLoopBackTester:
         if _action == 'buy':
             cash_needed = 10 * price_update['Close']
             if self.cash - cash_needed >= 0:
-                print(str(price_update['date']) +
+                print(str(price_update['Datetime']) +
                       " send buy order for 10 shares price=%.2f" % (price_update['Close']))
                 self.position += 10
                 self.cash -= cash_needed
@@ -160,7 +160,7 @@ class ForLoopBackTester:
         if _action == 'sell':
             position_allowed = 10
             if self.position - position_allowed >= -position_allowed:
-                print(str(price_update['date']) +
+                print(str(price_update['Datetime']) +
                       " send sell order for 10 shares price=%.2f" % (price_update['Close']))
                 self.position -= position_allowed
                 self.cash -= -position_allowed * price_update['Close']
@@ -178,66 +178,49 @@ class ForLoopBackTester:
         self.list_total.append(self.holdings + self.cash)
 
 
-naive_backtester = None
-nb_of_rows = 0
-
-
-def test():
-    """
-    Guys are we using this function test at all???
-    """
-    global naive_backtester
-    global nb_of_rows
-    nb_of_rows = 600
-    naive_backtester = ForLoopBackTester(Strategy())
+# naive_backtester = None
 
 
 if __name__ == '__main__':
-
+    naive_backtester = ForLoopBackTester(Strategy())
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list('FB')
+    symbols = list('MSFT')
     num_to_select = 1
 
-    N = len(reader[reader['Symbol'] == 'FB'])
+    N = len(reader[reader['Symbol'] == 'MSFT'])
     for j in range(N):
         for i in range(num_to_select):
-            send = reader[reader['Symbol'] == 'FB']
+            send = reader[reader['Symbol'] == 'MSFT']
             send = send.iloc[j]
             send = send.to_dict()
 
-            naive_backtester = ForLoopBackTester(Strategy())
+
             _action = naive_backtester.on_market_data_deceived(send)
             naive_backtester.buy_sell_or_hold_something(send, _action)
             # print(price_information, )
 
-    # aapl = pd.read_csv('aapl.csv')
-    # aapl['Price'] = aapl['Close']
-    # for i in range(len(aapl)):
-    #     price_information = aapl.iloc[i, :].to_dict()
-    #     naive_backtester = ForLoopBackTester(Strategy())
-    #     _action = naive_backtester.on_market_data_deceived(price_information)
-    #     naive_backtester.buy_sell_or_hold_something(price_information, _action)
-    #     print(price_information, )
 
-    # for _ in range(nb_of_rows):
-    #     row = input().strip().split(',')
-    #
-    #     date = row[0]
-    #     high = row[1]
-    #     low = row[2]
-    #     closep = row[4]
-    #     openp = row[3]
-    #     volume = row[5]
-    #     price = row[6]
-    #
-    #     price_information = {'date': date,
-    #                          'price': float(price),
-    #                          'high': float(high),
-    #                          'low': float(low),
-    #                          'close': float(closep),
-    #                          'open': float(openp),
-    #                          'volume': float(volume)}
-    #     _action = naive_backtester.on_market_data_deceived(price_information)
-    #     naive_backtester.buy_sell_or_hold_something(price_information, _action)
+# def test():
+#     """
+#     Guys are we using this function test at all???
+#     """
+#     global naive_backtester
+#     global nb_of_rows
+#     nb_of_rows = 600
+#     naive_backtester = ForLoopBackTester(Strategy())
 
-    # print("PNL:%.2f" % (naive_backtester.list_total[-1] - 10000))
+#
+# class System:
+#
+#     def __init__(self, start=None):
+#
+#         self.position = 0
+#         self.cash = 100000
+#         self.total = 0
+#         self.holdings = 0
+#         self.strategy = start
+#
+#     def transaction(self, price_update):
+#         if self.strategy:
+#             self.strategy.fit(price_update)
+#             predicted_value = self.strategy.predict(price_update)
