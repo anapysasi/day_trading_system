@@ -3,6 +3,7 @@ from create_df import data_to_df
 from sklearn.linear_model import LogisticRegression
 from feature_engineering import features_df
 
+
 class Strategy:
     """
     This strategy will use the logistic regression
