@@ -87,7 +87,7 @@ class Strategy:
         if len(self.price) > 40:
             fit_x = pd.DataFrame({'Open-Close': self.open_close[30:], 'High-Low': self.high_low[30:],
                                   'Volatility': self.Volatility[30:],
-                                  # 'Volatility': self.Volatility[30:], 'Momentum': self.momentum[30:], 'RSI': self.rsi[30:],
+                                  # 'Momentum': self.momentum[30:], 'RSI': self.rsi[30:],
                                   'MACD': self.macd[30:], '5min': self.min5[30:],
                                   '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
                                   'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
@@ -188,8 +188,5 @@ if __name__ == '__main__':
             send = send.iloc[j]
             send = send.to_dict()
 
-
             _action = naive_backtester.on_market_data_deceived(send)
             naive_backtester.buy_sell_or_hold_something(send, _action)
-
-            
