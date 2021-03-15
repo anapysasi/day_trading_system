@@ -23,14 +23,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             message.append(str(sock.recv(1024), "utf-8"))
         print(message)
         # creates list of messages for each minute
-        for updates in message:
-            try:
-                received.append(json.loads(updates))
-            except:
-                split_string = updates.split('\n')
-                for j in split_string:
+        for i in range(len(message)):
+            element = message[i].split('\n')
+            for j in element:
+                if len(j) > 1:
                     received.append(j)
         print(received)
+
         # applies market actions on each message in list
         for price_update in received:
             _action = market.on_market_data_received(price_update)
