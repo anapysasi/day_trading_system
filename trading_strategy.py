@@ -5,6 +5,7 @@ from feature_engineering import features_df
 import pandas as pd
 
 
+
 class Strategy:
     """
     This strategy will use the logistic regression
