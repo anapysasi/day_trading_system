@@ -90,5 +90,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
           (list(cash.keys())[0], list(cash.values())[0],
            list(cash.keys())[1], list(cash.values())[1],
            list(cash.keys())[2], list(cash.values())[2]))
-
-
+    print('You made:', sum(total.values()) - num_stocks * 100000)
