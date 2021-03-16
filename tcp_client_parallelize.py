@@ -7,14 +7,13 @@ num_stocks = 3
 HOST, PORT = "localhost", 9995
 data = "5"
 counter = 0
-# strategy = ts.Strategy()
-# market = ma.MarketActions(strategy)
 strategy_dic = {}
 market_dic = {}
 dic = {}
 total = {}
 holdings = {}
 cash = {}
+news = {}
 
 # Create a socket (SOCK_STREAM means a TCP socket)
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -40,52 +39,41 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                     if len(j) > 65:
                         received.append(j)
 
-        # counter = 0
-        # dic = {}
-
         # applies market actions on each message in list
+        # We need to create as much markets (and actions) as stocks we have.
         for price_update in received:
             counter += 1
             price_update = ast.literal_eval(price_update)
 
             if counter < (num_stocks + 1):
-                print(counter)
                 strategy_dic['strategy' + str(price_update["Symbol"])] = ts.Strategy()
-                market_dic['market' + str(price_update["Symbol"])] = ma.MarketActions(strategy_dic['strategy' + str(price_update["Symbol"])])
-                # locals().update(strategy_dic)
-                # locals().update(market_dic)
-                # print(strategy_dic,'------',market_dic)
+                market_dic['market' + str(price_update["Symbol"])] = ma.MarketActions(
+                    strategy_dic['strategy' + str(price_update["Symbol"])])
 
-            # print(market_dic['market' + str(price_update["Symbol"])])
-            print(price_update["Symbol"])
-            dic['_action' + str(price_update["Symbol"])] = market_dic['market' + str(price_update["Symbol"])].on_market_data_received(price_update)
-            # total[str(price_update["Symbol"])], \
-            # holdings[str(price_update["Symbol"])], \
-            # cash[str(price_update["Symbol"])] = market_dic['market' + str(price_update["Symbol"])].buy_sell_or_hold_something(price_update, dic['_action' + str(price_update["Symbol"])])
-            market_dic['market' + str(price_update["Symbol"])].buy_sell_or_hold_something(price_update, dic['_action' + str(price_update["Symbol"])])
+            dic['_action' + str(price_update["Symbol"])] = market_dic[
+                'market' + str(price_update["Symbol"])].on_market_data_received(price_update)
+            total[str(price_update["Symbol"])], holdings[str(price_update["Symbol"])], cash[
+                str(price_update["Symbol"])], news[str(price_update["Symbol"])] = market_dic[
+                'market' + str(price_update["Symbol"])].buy_sell_or_hold_something(price_update, dic[
+                '_action' + str(price_update["Symbol"])])
 
-            # _action = naive_backtester.on_market_data_received(send)
-            # naive_backtester.buy_sell_or_hold_something(send, _action)
+        if list(news.values()) == [None] * 3:
+            pass
+        else:
+            for i in range(len(list(news.values()))):
+                if list(news.values())[i] is not None:
+                    print(list(news.keys())[i], ':', list(news.values())[i])
 
-            # locals().update(dic)
-            # locals().update(total)
-            # locals().update(holdings)
-            # locals().update(cash)
+            sum_total = sum(total.values())
+            sum_cash = sum(cash.values())
+            sum_holdings = sum(holdings.values())
+            print('total = %d, holding = %d, cash = %d' %
+                  (sum_total, sum_holdings, sum_cash))
 
-            # print(price_update["Symbol"])
-            # print(dic)
-            # print(cash)
-
-
-            # price_update = ast.literal_eval(price_update)
-            # _action = market.on_market_data_received(price_update)
-            # market.buy_sell_or_hold_something(price_update, _action)
-
-        # act on the data
-        # feed relevant data into model
-
-    # print("Sent:     {}".format(data))
-    # print("Received: {}".format(received[0]))
-    # print("Received: {}".format(received[1]))
-    # print("Received: {}".format(received))
+    # for i in range(len(list(news.values()))):
+    #     if list(news.values())[i] is not None:
+    #         print(list(news.keys())[i], ':', list(news.values())[i])
+    print(holdings)
+    print(cash)
+    print(news)
 
