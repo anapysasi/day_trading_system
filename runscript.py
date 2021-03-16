@@ -1,5 +1,6 @@
 import pandas as pd
 import trading_strategy as ts
+import market_actions as ma
 
 
 class DIRECTION:
@@ -71,17 +72,29 @@ class ForLoopBackTester:
 
 if __name__ == '__main__':
     strategy = ts.Strategy()
-    naive_backtester = ForLoopBackTester(strategy)
+    market = ma.MarketActions(strategy)
+
+    strategy_dic = {}
+    market_dic = {}
+    dic = {}
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list('FB')
+    symbols = list('WRK')
     num_to_select = 1
 
-    N = len(reader[reader['Symbol'] == 'FB'])
+    strategy_dic['strategy' + str(symbols[0])] = ts.Strategy()
+    market_dic['market' + str(symbols[0])] = ma.MarketActions(strategy_dic['strategy' + str(symbols[0])])
+
+    N = len(reader[reader['Symbol'] == 'WRK'])
     for j in range(N):
         for i in range(num_to_select):
-            send = reader[reader['Symbol'] == 'FB']
+            send = reader[reader['Symbol'] == 'WRK']
             send = send.iloc[j]
             send = send.to_dict()
 
             _action = naive_backtester.on_market_data_received(send)
             naive_backtester.buy_sell_or_hold_something(send, _action)
+            # _action = market.on_market_data_received(send)
+            # market.buy_sell_or_hold_something(send, _action)
+
+            dic['_action' + str(symbols[0])] = market_dic['market' + str(symbols[0])].on_market_data_received(send)
+            market_dic['market' + str(symbols[0])].buy_sell_or_hold_something(send, dic['_action' + str(symbols[0])])

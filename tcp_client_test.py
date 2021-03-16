@@ -21,13 +21,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         # accepts messages
         for i in range(num_stocks):
             message.append(str(sock.recv(1024), "utf-8"))
-
-        # creates list of messages for each minute
-        for i in range(len(message)):
-            element = message[i].split('\n')
-            for j in element:
-                if len(j) > 65:
-                    received.append(j)
+        if not message:
+            print('Client received no data: closing scoket')
+            sock.close()
+            break
+        else:
+            # creates list of messages for each minute
+            for i in range(len(message)):
+                element = message[i].split('\n')
+                for j in element:
+                    if len(j) > 65:
+                        received.append(j)
 
         # applies market actions on each message in list
         for price_update in received:

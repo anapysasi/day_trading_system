@@ -63,3 +63,5 @@ class MarketActions:
         self.list_cash.append(self.cash)
         self.list_holdings.append(self.holdings)
         self.list_total.append(self.holdings + self.cash)
+
+        return self.total, self.holdings, self.cash
