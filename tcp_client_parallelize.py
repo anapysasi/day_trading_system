@@ -3,7 +3,7 @@ import trading_strategy as ts
 import market_actions as ma
 import ast
 
-num_stocks = 3
+#num_stocks = 3
 HOST, PORT = "localhost", 9995
 data = "5"
 counter = 0
@@ -20,18 +20,22 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     # Connect to server and send data
     sock.connect((HOST, PORT))
     sock.sendall(bytes(data + "", "utf-8"))
+    num_stocks = int(str(sock.recv(1024), "utf-8"))
+    print('Number of Stocks trading on:', num_stocks)
+    loop_length = int(str(sock.recv(1024), "utf-8"))
 
     while True:
         message = []
         received = []
+        loop_length -= 1
         # accepts messages
-        for i in range(num_stocks):
-            message.append(str(sock.recv(1024), "utf-8"))
-        if not message:
-            print('Client received no data: closing socket')
+        if loop_length == 0:
+            print('End of trading day: closing connection')
             sock.close()
             break
         else:
+            for i in range(num_stocks):
+                message.append(str(sock.recv(1024), "utf-8"))
             # creates list of messages for each minute
             for i in range(len(message)):
                 element = message[i].split('\n')
@@ -90,5 +94,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
           (list(cash.keys())[0], list(cash.values())[0],
            list(cash.keys())[1], list(cash.values())[1],
            list(cash.keys())[2], list(cash.values())[2]))
+    print('You made:', sum(total.values()) - num_stocks * 100000)
 
 

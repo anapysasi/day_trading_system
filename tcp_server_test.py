@@ -40,7 +40,7 @@ class ThreadedServer(object):
         self.sock.listen(5)
         while True:
             client, address = self.sock.accept()
-            client.settimeout(500)
+            client.settimeout(400)
             threading.Thread(target=self.listen_to_client, args=(client, address)).start()
             threading.Thread(target=self.send_csv_file, args=(client,)).start()
 
@@ -111,6 +111,7 @@ class ThreadedServer(object):
             symbols = list(set(np.array(reader['Symbol'])))
             # Number of symbols we want to choose
             num_to_select = self.opt.stocks
+            client.send(str(num_to_select).encode('utf-8'))
             # Random election of num_to_select Symbols
             list_of_random_items = random.sample(symbols, num_to_select)
             # list_of_random_items = ['PLD', 'MTD', 'ULTA']
@@ -120,6 +121,7 @@ class ThreadedServer(object):
                 length.append(n)
 
             n = min(length)
+            client.send(str(n).encode('utf-8'))
             out = []
 
             for j in range(n):
