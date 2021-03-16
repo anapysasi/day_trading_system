@@ -54,8 +54,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 'market' + str(price_update["Symbol"])].on_market_data_received(price_update)
             total[str(price_update["Symbol"])], holdings[str(price_update["Symbol"])], cash[
                 str(price_update["Symbol"])], news[str(price_update["Symbol"])] = market_dic[
-                'market' + str(price_update["Symbol"])].buy_sell_or_hold_something(price_update, dic[
-                '_action' + str(price_update["Symbol"])])
+                'market' + str(price_update["Symbol"])].buy_sell_or_hold_something(
+                price_update, dic['_action' + str(price_update["Symbol"])])
 
         if list(news.values()) == [None] * 3:
             pass
@@ -70,10 +70,25 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             print('total = %d, holding = %d, cash = %d' %
                   (sum_total, sum_holdings, sum_cash))
 
-    # for i in range(len(list(news.values()))):
-    #     if list(news.values())[i] is not None:
-    #         print(list(news.keys())[i], ':', list(news.values())[i])
-    print(holdings)
-    print(cash)
-    print(news)
+    print('final %s total are %d, '
+          '\n final %s total are %d, '
+          '\n final %s total are %d, \n' %
+          (list(total.keys())[0], list(total.values())[0],
+           list(total.keys())[1], list(total.values())[1],
+           list(total.keys())[2], list(total.values())[2]))
+    print('---------------------')
+    print('final %s holding are %d, '
+          '\n final %s holding are %d, '
+          '\n final %s holding are %d, \n' %
+          (list(holdings.keys())[0], list(holdings.values())[0],
+           list(holdings.keys())[1], list(holdings.values())[1],
+           list(holdings.keys())[2], list(holdings.values())[2]))
+    print('---------------------')
+    print('final %s cash are %d, '
+          '\n final %s cash are %d, '
+          '\n final %s cash are %d, \n' %
+          (list(holdings.keys())[0], list(holdings.values())[0],
+           list(holdings.keys())[1], list(holdings.values())[1],
+           list(holdings.keys())[2], list(holdings.values())[2]))
+
 
