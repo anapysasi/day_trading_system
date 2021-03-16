@@ -1,4 +1,3 @@
-import pandas as pd
 import trading_strategy as ts
 import market_actions as ma
 import tcp_client as client

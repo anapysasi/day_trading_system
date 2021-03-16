@@ -60,8 +60,6 @@ class MarketActions:
 
         self.holdings = self.position * price_update['Close']
         self.total = (self.holdings + self.cash)
-        # print('%s total=%d, holding=%d, cash=%d' %
-        #       (str(price_update['Datetime']), self.total, self.holdings, self.cash))
 
         self.list_position.append(self.position)
         self.list_cash.append(self.cash)

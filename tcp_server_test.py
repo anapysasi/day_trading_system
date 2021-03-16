@@ -61,7 +61,7 @@ class ThreadedServer(object):
             try:
                 data = client.recv(size).decode()
                 if data:
-                    # Set the response to echo back the recieved data
+                    # Set the response to echo back the received data
                     a = json.loads(data.rstrip('\n\r '))
                     self.handle_client_answer(a)
 
@@ -113,7 +113,7 @@ class ThreadedServer(object):
             num_to_select = self.opt.stocks
             # Random election of num_to_select Symbols
             list_of_random_items = random.sample(symbols, num_to_select)
-            # list_of_random_items = ['WRK', 'FB', 'ULTA']
+            # list_of_random_items = ['PLD', 'MTD', 'ULTA']
             length = []
             for i in range(num_to_select):
                 n = len(reader[reader['Symbol'] == list_of_random_items[i]])

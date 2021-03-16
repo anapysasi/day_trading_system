@@ -57,19 +57,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 'market' + str(price_update["Symbol"])].buy_sell_or_hold_something(
                 price_update, dic['_action' + str(price_update["Symbol"])])
 
-        if list(news.values()) == [None] * 3:
+        if list(news.values()) == [None] * num_stocks:
             pass
         else:
             for i in range(len(list(news.values()))):
                 if list(news.values())[i] is not None:
                     print(list(news.keys())[i], ':', list(news.values())[i])
-
             sum_total = sum(total.values())
             sum_cash = sum(cash.values())
             sum_holdings = sum(holdings.values())
             print('total = %d, holding = %d, cash = %d' %
                   (sum_total, sum_holdings, sum_cash))
 
+    print('---------------------')
     print('final %s total are %d, '
           '\n final %s total are %d, '
           '\n final %s total are %d, \n' %
@@ -87,8 +87,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     print('final %s cash are %d, '
           '\n final %s cash are %d, '
           '\n final %s cash are %d, \n' %
-          (list(holdings.keys())[0], list(holdings.values())[0],
-           list(holdings.keys())[1], list(holdings.values())[1],
-           list(holdings.keys())[2], list(holdings.values())[2]))
+          (list(cash.keys())[0], list(cash.values())[0],
+           list(cash.keys())[1], list(cash.values())[1],
+           list(cash.keys())[2], list(cash.values())[2]))
 
 
