@@ -77,3 +77,4 @@ if __name__ == '__main__':
           (list(cash.keys())[0], list(cash.values())[0],
            list(cash.keys())[1], list(cash.values())[1],
            list(cash.keys())[2], list(cash.values())[2]))
+    print('You made:', sum(total.values()) - num_to_select * 100000)
