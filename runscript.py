@@ -71,8 +71,8 @@ class ForLoopBackTester:
 
 
 if __name__ == '__main__':
-    strategy = ts.Strategy()
-    market = ma.MarketActions(strategy)
+#     strategy = ts.Strategy()
+#     market = ma.MarketActions(strategy)
 
     strategy_dic = {}
     market_dic = {}
