@@ -2,7 +2,8 @@ import pandas as pd
 import yfinance as yf
 from openpyxl import load_workbook
 
-data = load_workbook('/Users/anaysasi/Documents/UchicagoCourses/Winter2021/RealTimeIntSystems/Python/FinalProject/SPY500.xlsx')
+# data = load_workbook('/Users/anaysasi/Documents/UchicagoCourses/Winter2021/RealTimeIntSystems/Python/FinalProject/SPY500.xlsx')
+data = load_workbook('SPY500.xlsx')
 data = data['Sheet1']
 data = data.values
 columns = next(data)[0:]
@@ -26,6 +27,6 @@ for i in range(1,len(Symbols)):
     df['Symbol'] = [Symbols[i]]*df.shape[0]
     df0 = df0.append(df)
 
-df0.head()
+# print(df0.head())
 
-# df0.to_csv('OneDayData.csv')
+df0.to_csv('OneDayData%s.csv' % '2021-03-16')
