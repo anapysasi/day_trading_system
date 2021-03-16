@@ -4,7 +4,6 @@ import market_actions as ma
 
 
 class DIRECTION:
-
     BUY = 1
     SELL = -1
     HOLD = 0
@@ -71,28 +70,35 @@ class ForLoopBackTester:
 
 
 if __name__ == '__main__':
-    # strategy = ts.Strategy()
-    # market = ma.MarketActions(strategy)
 
     strategy_dic = {}
     market_dic = {}
     dic = {}
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list('ULTA')
-    num_to_select = 1
+    symbols = ['WRK', 'FB', 'ULTA']
+    num_to_select = 3
+    list_of_random_items = symbols
+    counter = 0
 
-    strategy_dic['strategy' + str(symbols[0])] = ts.Strategy()
-    market_dic['market' + str(symbols[0])] = ma.MarketActions(strategy_dic['strategy' + str(symbols[0])])
+    length = []
+    for i in range(num_to_select):
+        N = len(reader[reader['Symbol'] == list_of_random_items[i]])
+        length.append(N)
 
-    N = len(reader[reader['Symbol'] == 'ULTA'])
+    N = min(length)
+
     for j in range(N):
         for i in range(num_to_select):
-            send = reader[reader['Symbol'] == 'ULTA']
+            send = reader[reader['Symbol'] == list_of_random_items[i]]
             send = send.iloc[j]
             send = send.to_dict()
 
-            # _action = market.on_market_data_received(send)
-            # market.buy_sell_or_hold_something(send, _action)
+            counter += 1
+            if counter < (num_to_select + 1):
+                strategy_dic['strategy' + str(send["Symbol"])] = ts.Strategy()
+                market_dic['market' + str(send["Symbol"])] = ma.MarketActions(
+                    strategy_dic['strategy' + str(send["Symbol"])])
 
-            dic['_action' + str(symbols[0])] = market_dic['market' + str(symbols[0])].on_market_data_received(send)
-            market_dic['market' + str(symbols[0])].buy_sell_or_hold_something(send, dic['_action' + str(symbols[0])])
+            dic['_action' + str(send["Symbol"])] = market_dic['market' + str(send["Symbol"])].on_market_data_received(send)
+            print(send["Symbol"])
+            market_dic['market' + str(send["Symbol"])].buy_sell_or_hold_something(send, dic['_action' + str(send["Symbol"])])

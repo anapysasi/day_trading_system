@@ -22,7 +22,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         for i in range(num_stocks):
             message.append(str(sock.recv(1024), "utf-8"))
         if not message:
-            print('Client received no data: closing scoket')
+            print('Client received no data: closing socket')
             sock.close()
             break
         else:
