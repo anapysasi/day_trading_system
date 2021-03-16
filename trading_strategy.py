@@ -7,9 +7,11 @@ import pandas as pd
 
 class Strategy:
     """
+    CHANGE THIS
     This strategy will use the logistic regression
     The logistic regression will fit the model at the 30th minute
     When the model is built, we will use the function predict to know if we need to send a buy or sell order.
+    CHANGE THIS
     """
 
     def __init__(self):
