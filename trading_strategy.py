@@ -1,3 +1,8 @@
+"""
+Gets the original data with all the features and fits a model with it. 
+It also predicts the following value using said model and decides whether it holds, buys, or sells.
+"""
+
 from market_actions import DIRECTION
 from create_df import data_to_df
 from sklearn.linear_model import LogisticRegression
