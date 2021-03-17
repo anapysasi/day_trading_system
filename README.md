@@ -8,13 +8,13 @@ Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course a
 
 ## Description:
 
-In this project we simulate a day trading stragety, in which we are getting the data every minute from a server.
+In this project we simulate a day trading strategy, where we get relevant stock data every minute from a simulated server.
 
-Using this data, we calcultate different features to fit it to a regression model. We recalculate the model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
+Using the stock data, we calcultate different features to fit it to a logistic regression model. We recalculate the model every time we receive new data. This way we pretend to predict the values of the stocks and buy or sell based on the regression's outputs.
 
 ---
 
-## Instalation Guide
+## Installation Guide
 
 ```python
 pip3 install gitpython
@@ -28,7 +28,7 @@ Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave
 
 #### File: `create_one_day_data.py`
 
-This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days and it will take the minute data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
+This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days and the output file will have minute level data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx) for that particular day<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
 
 #### File: `OneDayData.csv`
 
