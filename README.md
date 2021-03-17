@@ -26,7 +26,7 @@ Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave
 
 ## Quickstart Guide
 
-#### File: `CreateOneDayDataCSV.py`
+#### File: `create_one_day_data.py`
 
 This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days and it will take the minute data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
 
