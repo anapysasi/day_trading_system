@@ -40,10 +40,10 @@ class Strategy:
 
     def prepare_dataframe(self, original):
         """
-
+        returns a dataframe with the data that has been received at the present and all the past values.
         :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                              'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
-        :return:
+        :return: dataframe with all the values obtained until the moment the function is run (present and past values).
         """
         self.datetime.append(original['Datetime'])
         self._open.append(original['Open'])
@@ -56,10 +56,10 @@ class Strategy:
 
     def getting_features(self, original):
         """
-
         :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                          'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
-        :return:
+        :return: dataframe with the data that has been received at the present and all the past values
+        adding the columns calculated in features_df.
         """
         data_df = self.prepare_dataframe(original)
         price_update = features_df(data_df)
@@ -67,10 +67,9 @@ class Strategy:
 
     def fit(self, original):
         """
-
         :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                          'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
-        :return:
+        :return: model fit using all the original data and all the features.
         """
         price_update = self.getting_features(original)
         # Appending to appropriate lists
@@ -107,10 +106,11 @@ class Strategy:
 
     def predict(self, original):
         """
-
+        Predicts what the next value is going to be using the present one.
+        Depending on this output sends a hold, buy or sell order.
         :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                          'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
-        :return:
+        :return: element from the DIRECTION class: BUY, SELL or HOLD.
         """
         price_update = self.getting_features(original)
         if len(self.price) > 40:
