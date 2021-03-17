@@ -41,6 +41,9 @@ class Strategy:
     def prepare_dataframe(self, original):
         """
 
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return:
         """
         self.datetime.append(original['Datetime'])
         self._open.append(original['Open'])
@@ -52,11 +55,23 @@ class Strategy:
         return data_df
 
     def getting_features(self, original):
+        """
+
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return:
+        """
         data_df = self.prepare_dataframe(original)
         price_update = features_df(data_df)
         return price_update
 
     def fit(self, original):
+        """
+
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return:
+        """
         price_update = self.getting_features(original)
         # Appending to appropriate lists
         self.price.append(price_update['Close'])
@@ -91,6 +106,12 @@ class Strategy:
             self.model.fit(fit_x, fit_y.values.ravel())
 
     def predict(self, original):
+        """
+
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return:
+        """
         price_update = self.getting_features(original)
         if len(self.price) > 40:
             predict_value = self.model.predict(
