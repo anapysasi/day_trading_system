@@ -55,11 +55,11 @@ The client receives the data from the server and it fits the model to make the p
 
 #### File: `create_df.py`
 
-
+The data from the server is send as dictionaries. Its converted to individual lists and this file converts these lists to a dataframe.
 
 #### File: `feature_engineering.py`
 
-
+Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
 #### File `trading_strategy.py`
 
