@@ -1,16 +1,29 @@
+"""
+Gets a dataframe and calculates the following features: momentum, relative strength index (RSI),
+moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change,
+percentage volume change, upper and lower bands and z-score.
+"""
+
 import pandas as pd
 pd.set_option('display.max_columns', None)
 
 
 def momentum(data, n_days):
+    """
+    Calculates the momentum of a stock for n_days
+    """
     m = [None] * n_days
     for i in range(len(data) - n_days):
         m.append(data[i] - n_days)
     return m[-1]
 
 
-# Relative Strength Index
 def rsi(stock):
+    """
+    Calculates the Relative Strength Index (RSI)
+    :param stock: dataframe of stocks
+    :return: RSI of said stock
+    """
     gain = lambda x: x if x > 0 else 0  # works as a map function or in list comprehension
     loss = lambda x: abs(x) if x < 0 else 0  # works as a map function or in list comprehension
     rsi_list = [None] * 14
@@ -41,8 +54,12 @@ def rsi(stock):
     return rsi_list[-1]
 
 
-# Moving Average Convergence/Divergence
 def macd(stock):
+    """
+    Calculates the Moving Average Convergence/Divergence
+    :param stock: dataframe of stocks
+    :return: Moving Average Convergence/Divergence of said stock
+    """
     exp1 = stock.Close.ewm(span=12, adjust=False).mean()
     exp2 = stock.Close.ewm(span=26, adjust=False).mean()
     macd_val = exp1 - exp2
@@ -51,7 +68,12 @@ def macd(stock):
 
 
 def features_df(stocks):
-
+    """
+    Calculates the momentum, RSI, moving average convergence/divergence, volatility,
+    5-10 and 30 mins moving average, volume change, pct volume change, upper, lower bands and z-score
+    :param stocks: dataframe of stocks
+    :return: a dataframe with the different features of said stock
+    """
     stocks['Return'] = round(stocks['Close'] / stocks['Open'] - 1, 3)
     stocks['Change'] = (stocks.Close - stocks.Close.shift(1)).fillna(0)
     stocks['Volatility'] = stocks.Close.ewm(21).std()

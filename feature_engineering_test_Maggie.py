@@ -1,3 +1,9 @@
+"""
+Gets a dataframe and calculates the following features: momentum, relative strength index (RSI),
+moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change,
+percentage volume change, upper and lower bands and z-score.
+"""
+
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -5,13 +11,20 @@ pd.set_option('display.max_columns', None)
 
 
 def momentum(data, n_min):
+    """
+    Calculates the momentum of a stock for n_days
+    """
     mmt = (data - data.shift(n_min)).fillna(0)
     m = np.where(mmt > 0, 1, 0)
     return m[-1]
 
 
-# Relative Strength Index
 def rsi(stock):
+    """
+    Calculates the Relative Strength Index (RSI)
+    :param stock: dataframe of stocks
+    :return: RSI of said stock
+    """
     gain = lambda x: x if x > 0 else 0
     loss = lambda x: abs(x) if x < 0 else 0
     rsi_list = [None] * 14
@@ -42,8 +55,12 @@ def rsi(stock):
     return rsi_list[-1]
 
 
-# Moving Average Convergence/Divergence
 def macd(stock):
+    """
+    Calculates the Moving Average Convergence/Divergence
+    :param stock: dataframe of stocks
+    :return: Moving Average Convergence/Divergence of said stock
+    """
     exp1 = stock.Close.ewm(span=12, adjust=False).mean()
     exp2 = stock.Close.ewm(span=26, adjust=False).mean()
     macd_val = exp1 - exp2
@@ -52,6 +69,12 @@ def macd(stock):
 
 
 def bollinger_bands(stock, window=20):
+    """
+    Calculates the Upper and Lower band of a stock
+    :param stock: dataframe of stocks
+    :param window: The window for the rolling average. The default value is 20.
+    :return: Upper and Lower band of said stock
+    """
     rolling_mean = stock.Close.rolling(window).mean()
     rolling_std = stock.Close.rolling(window).std()
     upper_band = rolling_mean + (rolling_std*2)
@@ -60,7 +83,12 @@ def bollinger_bands(stock, window=20):
 
 
 def features_df(stocks):
-
+    """
+    Calculates the momentum, RSI, moving average convergence/divergence, volatility,
+    5-10 and 30 mins moving average, volume change, pct volume change, upper, lower bands and z-score
+    :param stocks: dataframe of stocks
+    :return: a dataframe with the different features of said stock
+    """
     stocks['Return'] = round(stocks['Close'] / stocks['Open'] - 1, 3)
     stocks['Change'] = (stocks.Close - stocks.Close.shift(1)).fillna(0)
     stocks['Volatility'] = stocks.Close.ewm(21).std()
