@@ -47,13 +47,13 @@ Sends the data to the client. In order to do so, it needs the client to introduc
 The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell, or hold order for each one of the different stocks that are being traded. Assumptions:
 
 * When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks.
-* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000" This is an arbitrary number and can be changed.>
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000"> (This is an arbitrary number and can be changed fairly easily)>
 
 ### The following files are used in the model:
 
 #### File: `create_df.py`
 
-The data from the server is send as dictionaries. It looks something like this:
+The data from the server is sent as dictionaries. Each minute's data for each stock looks like this:
 
 ```python
 {'Datetime': '2021-03-09 15:59:00-05:00', 'Open': 214.6999969482422, 
@@ -61,19 +61,19 @@ The data from the server is send as dictionaries. It looks something like this:
        'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
 ```
 
-Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work woth them.
+Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
 #### File: `feature_engineering.py`
 
-Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
+Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
 #### File `trading_strategy.py`
 
-Gets the original data with all the features and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
+Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
 
 #### File: `market_actions.py`
 
-Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings and the cash.
+Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings, and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">
