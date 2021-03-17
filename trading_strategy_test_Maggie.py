@@ -7,11 +7,10 @@ import pandas as pd
 
 class Strategy:
     """
-    CHANGE THIS
-    This strategy will use the logistic regression
-    The logistic regression will fit the model at the 30th minute
-    When the model is built, we will use the function predict to know if we need to send a buy or sell order.
-    CHANGE THIS
+    Fits the data to a logistic regression.
+    The logistic regression will fit the model at the 30th minute.
+    It will actualize the model every time it gets a new line of data.
+    It also predicts if we need to send a buy or sell order.
     """
 
     def __init__(self):
@@ -43,6 +42,12 @@ class Strategy:
         self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
 
     def prepare_dataframe(self, original):
+        """
+        returns a dataframe with the data that has been received at the present and all the past values.
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return: dataframe with all the values obtained until the moment the function is run (present and past values).
+        """
         self.datetime.append(original['Datetime'])
         self._open.append(original['Open'])
         self.high.append(original['High'])
@@ -53,11 +58,22 @@ class Strategy:
         return data_df
 
     def getting_features(self, original):
+        """
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return: dataframe with the data that has been received at the present and all the past values
+        adding the columns calculated in features_df.
+        """
         data_df = self.prepare_dataframe(original)
         price_update = features_df(data_df)
         return price_update
 
     def fit(self, original):
+        """
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return: model fit using all the original data and all the features.
+        """
         price_update = self.getting_features(original)
         # Appending to appropriate lists
         self.price.append(price_update['Close'])
@@ -97,6 +113,13 @@ class Strategy:
             self.model.fit(fit_x, fit_y.values.ravel())
 
     def predict(self, original):
+        """
+        Predicts what the next value is going to be using the present one.
+        Depending on this output sends a hold, buy or sell order.
+        :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                         'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return: element from the DIRECTION class: BUY, SELL or HOLD.
+        """
         price_update = self.getting_features(original)
         if len(self.price) > 40:
             predict_value = self.model.predict(
