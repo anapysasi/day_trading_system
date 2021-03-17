@@ -44,7 +44,7 @@ Sends the data to the client. In order to do so, it needs the client to introduc
 
 #### File: `tcp_client.py`
 
-The client receives the data from the server and it fits it to a model to make the predictions. Based on these, it sends buy or sell order for each one of the different stocks that are being trade. Assumptions:
+The client receives the data from the server and it fits it to a model to make the predictions. Based on these, it sends a buy, sell or hold order for each one of the different stocks that are being trade. Assumptions:
 
 * When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> sotcks.
 * In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000">
@@ -53,7 +53,7 @@ The client receives the data from the server and it fits it to a model to make t
 
 #### File: `create_df.py`
 
-The data from the server is send as dictionaries. Its converted to individual lists and this file converts these lists to a dataframe.
+The data from the server is send as dictionaries. These are converted to o individual lists and this file converts these lists to a dataframe.
 
 #### File: `feature_engineering.py`
 
