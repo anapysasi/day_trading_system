@@ -38,10 +38,10 @@ if __name__ == '__main__':
                     strategy_dic['strategy' + str(send["Symbol"])])
 
             dic['_action' + str(send["Symbol"])] =\
-                market_dic['market' + str(send["Symbol"])].on_market_data_received(send)
+                market_dic['market' + str(send["Symbol"])].received_market_data(send)
             total[str(send["Symbol"])], holdings[str(send["Symbol"])], \
                 cash[str(send["Symbol"])], news[str(send["Symbol"])] = \
-                market_dic['market' + str(send["Symbol"])].buy_sell_or_hold_something(
+                market_dic['market' + str(send["Symbol"])].action_buy_sell_hold(
                     send, dic['_action' + str(send["Symbol"])])
 
         if list(news.values()) == [None] * num_to_select:

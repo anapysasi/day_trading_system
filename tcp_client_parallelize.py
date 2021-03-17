@@ -3,7 +3,6 @@ import trading_strategy as ts
 import market_actions as ma
 import ast
 
-#num_stocks = 3
 HOST, PORT = "localhost", 9995
 data = "5"
 counter = 0
@@ -55,10 +54,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                     strategy_dic['strategy' + str(price_update["Symbol"])])
 
             dic['_action' + str(price_update["Symbol"])] = market_dic[
-                'market' + str(price_update["Symbol"])].on_market_data_received(price_update)
+                'market' + str(price_update["Symbol"])].received_market_data(price_update)
             total[str(price_update["Symbol"])], holdings[str(price_update["Symbol"])], cash[
                 str(price_update["Symbol"])], news[str(price_update["Symbol"])] = market_dic[
-                'market' + str(price_update["Symbol"])].buy_sell_or_hold_something(
+                'market' + str(price_update["Symbol"])].action_buy_sell_hold(
                 price_update, dic['_action' + str(price_update["Symbol"])])
 
         if list(news.values()) == [None] * num_stocks:
@@ -95,5 +94,3 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
            list(cash.keys())[1], list(cash.values())[1],
            list(cash.keys())[2], list(cash.values())[2]))
     print('You made:', sum(total.values()) - num_stocks * 100000)
-
-

@@ -21,7 +21,7 @@ class MarketActions:
         self.strategy = start
         self.news = None
 
-    def on_market_data_received(self, price_update):
+    def received_market_data(self, price_update):
         if self.strategy:
             self.strategy.fit(price_update)
             predicted_value = self.strategy.predict(price_update)
@@ -34,12 +34,12 @@ class MarketActions:
             return 'sell'
         return 'hold'
 
-    def buy_sell_or_hold_something(self, price_update, _action):
+    def action_buy_sell_hold(self, price_update, _action):
         if _action == 'buy':
             cash_needed = 10 * price_update['Close']
             if self.cash - cash_needed >= 0:
-                self.news = str(str(price_update['Datetime']) +
-                      " send buy order for 10 shares price=%.2f" % (price_update['Close']))
+                self.news = str(str(price_update['Datetime']) + " send buy order for 10 shares price=%.2f" %
+                                (price_update['Close']))
                 self.position += 10
                 self.cash -= cash_needed
             else:
@@ -48,8 +48,8 @@ class MarketActions:
         if _action == 'sell':
             position_allowed = 10
             if self.position - position_allowed >= -position_allowed:
-                self.news = str(str(price_update['Datetime']) +
-                      " send sell order for 10 shares price=%.2f" % (price_update['Close']))
+                self.news = str(str(price_update['Datetime']) + " send sell order for 10 shares price=%.2f" %
+                                (price_update['Close']))
                 self.position -= position_allowed
                 self.cash -= -position_allowed * price_update['Close']
             else:

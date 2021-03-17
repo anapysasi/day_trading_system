@@ -24,8 +24,8 @@ def rsi(stock):
         rsi_list.append(0)
     else:
         rs = avg_gain / avg_loss
-        rsi = 100 - (100 / (1 + rs))
-        rsi_list.append(rsi)
+        rsi_val = 100 - (100 / (1 + rs))
+        rsi_list.append(rsi_val)
 
     for i in range(15, len(stock)):
         avg_gain = (avg_gain * 13 + gain(stock[i])) / 14
@@ -35,8 +35,8 @@ def rsi(stock):
             rsi_list.append(0)
         else:
             rs = avg_gain / avg_loss
-            rsi = 100 - (100 / (1 + rs))
-            rsi_list.append(rsi)
+            rsi_val = 100 - (100 / (1 + rs))
+            rsi_list.append(rsi_val)
 
     return rsi_list[-1]
 

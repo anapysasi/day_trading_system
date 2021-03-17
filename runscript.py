@@ -91,8 +91,8 @@ if __name__ == '__main__':
             send = send.iloc[j]
             send = send.to_dict()
 
-            _action = market.on_market_data_received(send)
-            market.buy_sell_or_hold_something(send, _action)
+            _action = market.received_market_data(send)
+            market.action_buy_sell_hold(send, _action)
 
-            # dic['_action' + str(symbols[0])] = market_dic['market' + str(symbols[0])].on_market_data_received(send)
-            # market_dic['market' + str(symbols[0])].buy_sell_or_hold_something(send, dic['_action' + str(symbols[0])])
+            # dic['_action' + str(symbols[0])] = market_dic['market' + str(symbols[0])].received_market_data(send)
+            # market_dic['market' + str(symbols[0])].action_buy_sell_hold(send, dic['_action' + str(symbols[0])])
