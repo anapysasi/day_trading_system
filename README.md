@@ -47,7 +47,7 @@ Sends the data to the client. In order to do so, it needs the client to introduc
 The client receives the data from the server and it fits the model to make the predictions. Based on these, it sends buy or sell order for each one of the different stocks that are being trade. Assumptions:
 
 * When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> sotcks.
-* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=$100,000">
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000">
 
 ### The following files are used in the model:
 
