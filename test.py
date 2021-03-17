@@ -1,6 +1,6 @@
 import pandas as pd
 from create_df import data_to_df
-from feature_engineering import features_df
+from feature_engineering_test_Maggie import features_df
 from sklearn.linear_model import LogisticRegression
 
 reader = pd.read_csv('OneDayData.csv')
@@ -36,6 +36,10 @@ change = list()
 _return = list()
 vol_pct_change = list()
 y = list()
+upper_band = list()
+lower_band = list()
+z_score = list()
+
 model = LogisticRegression(solver='lbfgs', random_state=40, max_iter=1000)
 
 
@@ -72,6 +76,9 @@ def fit(original):
     vol_pct_change.append(price_update['volume change_pct'])
     momentum.append(price_update['Momentum'])
     rsi.append(price_update['RSI'])
+    upper_band.append(price_update['upper_band'])
+    lower_band.append(price_update['lower_band'])
+    z_score.append(price_update['zscore'])
 
 
     if len(price) > 1:
