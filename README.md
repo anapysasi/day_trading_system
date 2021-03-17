@@ -40,18 +40,18 @@ The client relies on sending a request to another program in order to access a s
 
 We use the TCP protocol in the communication of the client-server. 
 
-##### File: `tcp_server.py`
+1.- File: `tcp_server.py`
 
 Sends the data to the client. In order to do so, it needs the cleint to introduce the number of stocks it wants to trade, lets say $n$. Since we are simulating how the client-server would work, we randomly choose $n$ stocks and it sends the data at every minute to the client.
 
-##### File: `tcp_client.py`
+2.- File: `tcp_client.py`
 
 The client receives the data from the server and it fits the model to make the predictions. Based on these, it sends buy or sell order for each one of the different stocks that are being trade. Assumptions:
 
 * When it buys or sells stocks, it always exchanges $10$ sotcks.
 * In order to trade with this system the initial capital **per stock** must be $\$100,000$
 
-#### The following files are used in the model:
+### The following files are used in the model:
 
 ##### File: `create_df.py`
 
