@@ -34,8 +34,6 @@ This file creates the data needed to run the model. You can choose what day you 
 
 Data used to test the model. Corresponds to minute the data from stocks in the S&P 500 for the day **2021-03-09**.
 
-The client relies on sending a request to another program in order to access a service made available by a server. The server runs one or more programs that share resources with and distribute work among clients.
-
 ### Client server :
 
 We use the TCP protocol in the communication of the client-server. 
