@@ -6,15 +6,15 @@ Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course a
 
 ---
 
-### Description:
+## Description:
 
-In this project we simulate a day trading stragety, in which we are getting the data every minute from a server which is providing the data. 
+In this project we simulate a day trading stragety, in which we are getting the data every minute from a server.
 
-We calcultate different features from the data and fit it to a regression model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
+Using this data, we calcultate different features to fit it to a regression model. We recalculate the model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
 
 ---
 
-### Instalation Guide
+## Instalation Guide
 
 ```python
 pip3 install gitpython
@@ -24,7 +24,7 @@ from git.repo.base import Repo
 Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave")
 ```
 
-### Quickstart Guide
+## Quickstart Guide
 
 #### File: `CreateOneDayDataCSV.py`
 
@@ -32,31 +32,48 @@ This file creates the data needed to run the model. You can choose what day you 
 
 #### File: `OneDayData.csv`
 
-A data
+Data used to test the model. Corresponds to minute the data from stocks in the S&P 500 for the day **2021-03-09**.
 
-#### File: `create_df.py`
+### Client server :
 
-
-
-#### File: `feature_engineering.py`
-
-
-
-#### File: `market_actions.py`
-
-
-
-#### File: `tcp_client.py`
-
-
+We use the TCP protocol in the communication of the client-server model. 
 
 #### File: `tcp_server.py`
 
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute data to the client. The data is sent by minute.
 
+#### File: `tcp_client.py`
+
+The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell or hold order for each one of the different stocks that are being trade. Assumptions:
+
+* When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks.
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000">
+
+### The following files are used in the model:
+
+#### File: `create_df.py`
+
+The data from the server is send as dictionaries. It looks something like this:
+
+```python
+{'Datetime': '2021-03-09 15:59:00-05:00', 'Open': 214.6999969482422, 
+       'High': 214.8699951171875, 'Low': 214.42999267578125, 'Close': 214.42999267578125,
+       'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
+```
+
+Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work woth them.
+
+#### File: `feature_engineering.py`
+
+Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
 #### File `trading_strategy.py`
 
+Gets the original data with all the features and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
 
+#### File: `market_actions.py`
+
+Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">
