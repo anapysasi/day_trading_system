@@ -56,7 +56,9 @@ The client receives the data from the server and it fits it to a model to make t
 The data from the server is send as dictionaries. It looks something like this:
 
 ```python
-{'Datetime': '2021-03-09 15:59:00-05:00', 'Open': 214.6999969482422, 'High': 214.8699951171875, 'Low': 214.42999267578125, 'Close': 214.42999267578125, 'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
+{'Datetime': '2021-03-09 15:59:00-05:00', 'Open': 214.6999969482422, 
+       'High': 214.8699951171875, 'Low': 214.42999267578125, 'Close': 214.42999267578125,
+       'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
 ```
 
 These are converted to individual lists and this file converts these lists into a dataframe.
