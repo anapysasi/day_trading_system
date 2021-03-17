@@ -21,7 +21,7 @@ data0 = yf.Ticker(Symbols[i])
 
 # You can only choose one day within the last 7 days.
 # The format must be 'YYYY-MM-DD'
-day = '2021-03-16'
+day = # input
 df0 = data0.history(day, interval='1m')
 df0['Symbol'] = [Symbols[i]]*df0.shape[0]
 
