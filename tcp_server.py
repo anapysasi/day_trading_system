@@ -17,6 +17,10 @@ import random
 
 
 class NpEncoder(json.JSONEncoder):
+    """
+    json does not recognize NumPy data types. NpEncoder converts the number to a
+    Python int before serializing the object. It is only used for NumPy data types.
+    """
     def default(self, obj):
         if isinstance(obj, np.integer):
             return int(obj)
@@ -43,6 +47,10 @@ class ThreadedServer(object):
         self.lock = threading.Lock()
 
     def listen(self):
+        """
+        Starts listening to the client and also
+        sending over a csv file row by row.
+        """
         self.sock.listen(5)
         while True:
             client, address = self.sock.accept()
@@ -51,6 +59,10 @@ class ThreadedServer(object):
             threading.Thread(target=self.send_csv_file, args=(client,)).start()
 
     def handle_client_answer(self, obj):
+        """
+        Handles the clients responses for special cases.
+        Unused in our simulation.
+        """
         if self.opt.mode is not None and self.opt.mode == 'Occupancy':
 
             if 'Occupancy' not in obj:
@@ -62,6 +74,14 @@ class ThreadedServer(object):
         return
 
     def listen_to_client(self, client, address):
+        """
+        Listens to the client for messages and echos
+        back the received data onto the terminal.
+        Responsible for closing the connection when no data received.
+        :param client: client object to receive data from
+               address: address to receive data from (unused)
+        :return False when an error is thrown or the data received is blank.
+        """
         size = 1024
         while True:
             try:
@@ -70,7 +90,6 @@ class ThreadedServer(object):
                     # Set the response to echo back the received data
                     a = json.loads(data.rstrip('\n\r '))
                     self.handle_client_answer(a)
-
                     # client.send(response)
                 else:
                     print('Client disconnected')
@@ -82,6 +101,11 @@ class ThreadedServer(object):
                 return False
 
     def handle_custom_data(self, buffer):
+        """
+        Handles specific data from the client.
+        Unused in our simulation.
+        :param buffer: dictionary object of data that needs to be handled and processed
+        """
         if self.opt.mode is not None and self.opt.mode == 'Occupancy':
             self.lock.acquire()
             buffer['date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -90,9 +114,23 @@ class ThreadedServer(object):
             self.lock.release()
 
     def convert_string_to_json(self, st):
+        """
+        Uses NpEncoder to convert the NumPy st to a
+        Python int before serializing the object.
+        To combat the "Object of type 'int64' is not JSON serializable" error
+        :param st: object that needs to be converted to json before being sent over to client
+        return json object containing same information as st
+        """
         return json.dumps(st, cls=NpEncoder)
 
     def send_stream_to_client(self, client, buffer, num_stocks):
+        """
+        Sends appropriate amount of data to the client after processing
+        :param client: client object to send data to
+        :param buffer: string dictionaries of stock data that need to be sent over
+        :param num_stocks: the number of stocks that are being sent over per minute
+        return False when stream ends
+         """
         counter = 0
         for i in buffer:
             print(i)
@@ -110,6 +148,13 @@ class ThreadedServer(object):
         return False
 
     def send_csv_file(self, client):
+        """
+        Reads in a csv file full of stock data and uses inputs from the
+        server to parse through the csv file, pull out the appropriate amount of stock data
+        and start the process of sending the data over to the client. This is the method
+        that mimics/simulates real-time data.
+        :param client: client object to send data to
+         """
         for f in self.opt.files:
             print('reading file %s...' % f)
             reader = pd.read_csv(f)
@@ -138,6 +183,7 @@ class ThreadedServer(object):
 
 
 if __name__ == "__main__":
+    # Takes in arguments from server
     parser = argparse.ArgumentParser(usage='usage: tcp_server -p port [-f -m]')
     parser.add_argument('-f', '--files', nargs='+')
     parser.add_argument("-m", "--mode", action="store", dest="mode")
