@@ -61,7 +61,7 @@ The data from the server is send as dictionaries. It looks something like this:
        'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
 ```
 
-These are converted to individual lists and this file converts these lists into a dataframe.
+Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work woth them.
 
 #### File: `feature_engineering.py`
 
@@ -69,11 +69,11 @@ Gets the dataframe from `create_df.py` and it calculates the following features:
 
 #### File `trading_strategy.py`
 
-Gets the data and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
+Gets the original data with all the features and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
 
 #### File: `market_actions.py`
 
-Depending on the output from `trading_strategy.py` sends to order and calculates the total, holdings and the cash.
+Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">
