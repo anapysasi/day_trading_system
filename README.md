@@ -56,4 +56,8 @@ A data
 
 
 
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
 <li id="fn1"  class="footnote-item"><p>Here is the footnote. <a href="#fnref1" class="footnote-backref">↩</a></p>
+</li>
