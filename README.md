@@ -26,7 +26,7 @@ Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave
 
 #### File: `CreateOneDayDataCSV.py`
 
-This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days. It will take the minute data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx) prueba[^1]
+This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days. It will take the minute data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx) prueba,<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
 
 #### File: `OneDayData.csv`
 
@@ -56,5 +56,4 @@ A data
 
 
 
-
-[^1]: This is a footnote content.
+<li id="fn1"  class="footnote-item"><p>Here is the footnote. <a href="#fnref1" class="footnote-backref">↩</a></p>
