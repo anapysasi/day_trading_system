@@ -125,7 +125,8 @@ class ThreadedServer(object):
 
     def send_stream_to_client(self, client, buffer, num_stocks):
         """
-        Sends appropriate amount of data to the client after processing
+        Sends appropriate amount of data to the client after processing.
+        Sends data every second.
         :param client: client object to send data to
         :param buffer: string dictionaries of stock data that need to be sent over
         :param num_stocks: the number of stocks that are being sent over per minute
