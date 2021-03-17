@@ -1,3 +1,11 @@
+"""
+Receives the data from the server and it fits it to a regression model to make the predictions.
+Based on the predictions, sends a buy, sell or hold order for each one of the different stocks that are being sent.
+
+Makes the following assumptions:
+* Always exchanges 10 stocks (buy or sell).
+* Initial capital per stock $100000
+"""
 import socket
 import trading_strategy as ts
 import market_actions as ma

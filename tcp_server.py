@@ -1,3 +1,9 @@
+"""
+Sends the data to the client.
+Needs the client to introduce the number of stocks it wants to trade.
+It randomly select the stocks and send the minute data to the client.
+"""
+
 import socket
 import threading
 import json
