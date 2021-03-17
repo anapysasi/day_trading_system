@@ -6,7 +6,7 @@ Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course a
 
 ---
 
-### Description:
+## Description:
 
 In this project we simulate a day trading stragety, in which we are getting the data every minute from a server which is providing the data. 
 
@@ -14,7 +14,7 @@ We calcultate different features from the data and fit it to a regression model 
 
 ---
 
-### Instalation Guide
+## Instalation Guide
 
 ```python
 pip3 install gitpython
@@ -24,7 +24,7 @@ from git.repo.base import Repo
 Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave")
 ```
 
-### Quickstart Guide
+## Quickstart Guide
 
 #### File: `CreateOneDayDataCSV.py`
 
@@ -40,11 +40,11 @@ The client relies on sending a request to another program in order to access a s
 
 We use the TCP protocol in the communication of the client-server. 
 
-1.- File: `tcp_server.py`
+#### File: `tcp_server.py`
 
 Sends the data to the client. In order to do so, it needs the cleint to introduce the number of stocks it wants to trade, lets say $n$. Since we are simulating how the client-server would work, we randomly choose $n$ stocks and it sends the data at every minute to the client.
 
-2.- File: `tcp_client.py`
+#### File: `tcp_client.py`
 
 The client receives the data from the server and it fits the model to make the predictions. Based on these, it sends buy or sell order for each one of the different stocks that are being trade. Assumptions:
 
@@ -53,19 +53,19 @@ The client receives the data from the server and it fits the model to make the p
 
 ### The following files are used in the model:
 
-##### File: `create_df.py`
+#### File: `create_df.py`
 
 
 
-##### File: `feature_engineering.py`
+#### File: `feature_engineering.py`
 
 
 
-##### File `trading_strategy.py`
+#### File `trading_strategy.py`
 
 
 
-##### File: `market_actions.py`
+#### File: `market_actions.py`
 
 
 
