@@ -63,11 +63,11 @@ Gets the dataframe from `create_df.py` and it calculates the following features:
 
 #### File `trading_strategy.py`
 
-
+Gets the data and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
 
 #### File: `market_actions.py`
 
-
+Depending on the output from `trading_strategy.py` sends to order and calculates the total, holdings and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">
