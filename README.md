@@ -32,7 +32,7 @@ This file creates the data needed to run the model. You can choose what day you 
 
 #### File: `OneDayData.csv`
 
-Data used to test the model. Corresponds to minute the data from stocks in the S&P 500 for the day **2021-03-09**.
+Data used to test the model. Corresponds to minute level data from stocks in the S&P 500 for the day **2021-03-09** (day can be altered and set to whatever the user desires).
 
 ### Client server :
 
@@ -40,14 +40,14 @@ We use the TCP protocol in the communication of the client-server model.
 
 #### File: `tcp_server.py`
 
-Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute data to the client. The data is sent by minute.
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
 
 #### File: `tcp_client.py`
 
-The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell or hold order for each one of the different stocks that are being trade. Assumptions:
+The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell, or hold order for each one of the different stocks that are being traded. Assumptions:
 
 * When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks.
-* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000">
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000" This is an arbitrary number and can be changed.>
 
 ### The following files are used in the model:
 
