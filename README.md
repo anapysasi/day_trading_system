@@ -8,9 +8,9 @@ Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course a
 
 ## Description:
 
-In this project we simulate a day trading stragety, in which we are getting the data every minute from a server which is providing the data. 
+In this project we simulate a day trading stragety, in which we are getting the data every minute from a server.
 
-We calcultate different features from the data and fit it to a regression model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
+Using this data, we calcultate different features to fit it to a regression model. We recalculate the model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
 
 ---
 
