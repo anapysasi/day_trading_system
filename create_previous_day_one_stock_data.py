@@ -1,8 +1,8 @@
 """
-This file creates a csv file with the data of an specific day within the last seven days.
+This file creates a csv file with minute level data of a specific stock from the previous day.
 The data is the information from the 500 stocks from the S&P 500.
 You have the information of the stock at every minute that the market is open.
-You can use this csv file to run the model.
+You can use this csv file to run through the feature_engineering to understand feature importance.
 """
 
 import pandas as pd
