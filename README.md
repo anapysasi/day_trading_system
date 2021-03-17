@@ -36,7 +36,7 @@ Data used to test the model. Corresponds to minute the data from stocks in the S
 
 ### Client server :
 
-We use the TCP protocol in the communication of the client-server. 
+We use the TCP protocol in the communication of the client-server model. 
 
 #### File: `tcp_server.py`
 
