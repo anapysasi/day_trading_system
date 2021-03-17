@@ -1,12 +1,23 @@
-class DIRECTION:
+"""
+Sends a sell, buy or hold order and calculates the total, the holdings and the cash.
+"""
 
+
+class DIRECTION:
+    """
+    Class fo the different orders.
+    """
     BUY = 1
     SELL = -1
     HOLD = 0
 
 
 class MarketActions:
-
+    """
+    Class to buy or sell the stocks.
+    It actualizes the values of total, holdings and cash at every iteration.
+    Sends a message everytime a transaction is made.
+    """
     def __init__(self, start=None):
         self.list_position = []
         self.list_cash = []
@@ -22,6 +33,12 @@ class MarketActions:
         self.news = None
 
     def received_market_data(self, price_update):
+        """
+        Gets the prediction from trading_strategy.py and sends an order.
+        :param price_update: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :return: the strings: 'buy', 'sell' or 'hold' depending on the predictions.
+        """
         if self.strategy:
             self.strategy.fit(price_update)
             predicted_value = self.strategy.predict(price_update)
@@ -35,6 +52,15 @@ class MarketActions:
         return 'hold'
 
     def action_buy_sell_hold(self, price_update, _action):
+        """
+        Gets the order from received_market_data and makes the transaction.
+        It also calculates the total, the holdings and the resulting cash.
+        :param price_update: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
+                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+        :param _action: order received from received_market_data
+        :return: total, holdings, cash, and in case there was a sell or a buy
+                 it also gives the information of the money spends or gained.
+        """
         if _action == 'buy':
             cash_needed = 10 * price_update['Close']
             if self.cash - cash_needed >= 0:

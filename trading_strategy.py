@@ -7,11 +7,10 @@ import pandas as pd
 
 class Strategy:
     """
-    CHANGE THIS
-    This strategy will use the logistic regression
-    The logistic regression will fit the model at the 30th minute
-    When the model is built, we will use the function predict to know if we need to send a buy or sell order.
-    CHANGE THIS
+    Fits the data to a logistic regression.
+    The logistic regression will fit the model at the 30th minute.
+    It will actualize the model every time it gets a new line of data.
+    It also predicts if we need to send a buy or sell order.
     """
 
     def __init__(self):
@@ -40,6 +39,9 @@ class Strategy:
         self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
 
     def prepare_dataframe(self, original):
+        """
+
+        """
         self.datetime.append(original['Datetime'])
         self._open.append(original['Open'])
         self.high.append(original['High'])
