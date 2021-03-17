@@ -59,5 +59,5 @@ A data
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
-<li id="fn1"  class="footnote-item"><p>Data obtained from this [source](https://www.slickcharts.com/sp500). <a href="#fnref1" class="footnote-backref">↩</a></p>
+<li id="fn1"  class="footnote-item"><p>Data obtained from this <a href="https://www.slickcharts.com/sp500" title="Title">source</a>. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
