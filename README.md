@@ -32,29 +32,40 @@ This file creates the data needed to run the model. You can choose what day you 
 
 #### File: `OneDayData.csv`
 
-A data
+Data used to test the model. Corresponds to minute the data from stocks in the S&P 500 for the day **2021-03-09**.
 
-#### File: `create_df.py`
+The client relies on sending a request to another program in order to access a service made available by a server. The server runs one or more programs that share resources with and distribute work among clients.
+
+### Client server :
+
+We use the TCP protocol in the communication of the client-server. 
+
+##### File: `tcp_server.py`
+
+Sends the data to the client. In order to do so, it needs the cleint to introduce the number of stocks it wants to trade, lets say $n$. Since we are simulating how the client-server would work, we randomly choose $n$ stocks and it sends the data at every minute to the client.
+
+##### File: `tcp_client.py`
+
+The client receives the data from the server and it fits the model to make the predictions. Based on these, it sends buy or sell order for each one of the different stocks that are being trade. Assumptions:
+
+* When it buys or sells stocks, it always exchanges $10$ sotcks.
+* In order to trade with this system the initial capital **per stock** must be $\$100,000$
+
+#### The following files are used in the model:
+
+##### File: `create_df.py`
 
 
 
-#### File: `feature_engineering.py`
+##### File: `feature_engineering.py`
 
 
 
-#### File: `market_actions.py`
+##### File `trading_strategy.py`
 
 
 
-#### File: `tcp_client.py`
-
-
-
-#### File: `tcp_server.py`
-
-
-
-#### File `trading_strategy.py`
+##### File: `market_actions.py`
 
 
 
