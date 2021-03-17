@@ -40,7 +40,7 @@ We use the TCP protocol in the communication of the client-server model.
 
 #### File: `tcp_server.py`
 
-Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say \\n\\. Since we are simulating how the client-server would work, we randomly choose \\n\\ stocks and it sends the data at every minute to the client.
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say \\[ n \\]. Since we are simulating how the client-server would work, we randomly choose \\[ n \\] stocks and it sends the data at every minute to the client.
 
 #### File: `tcp_client.py`
 
