@@ -81,24 +81,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                   (sum_total, sum_holdings, sum_cash))
 
     print('---------------------')
-    print('final %s total are %d, '
-          '\n final %s total are %d, '
-          '\n final %s total are %d, \n' %
-          (list(total.keys())[0], list(total.values())[0],
-           list(total.keys())[1], list(total.values())[1],
-           list(total.keys())[2], list(total.values())[2]))
+    for i in range(len(list(total.keys()))):
+        print('final', list(total.keys())[i], 'total: $', list(total.values())[i])
     print('---------------------')
-    print('final %s holding are %d, '
-          '\n final %s holding are %d, '
-          '\n final %s holding are %d, \n' %
-          (list(holdings.keys())[0], list(holdings.values())[0],
-           list(holdings.keys())[1], list(holdings.values())[1],
-           list(holdings.keys())[2], list(holdings.values())[2]))
+    for i in range(len(list(holdings.keys()))):
+        print('final', list(holdings.keys())[i], 'holdings: $', list(holdings.values())[i])
     print('---------------------')
-    print('final %s cash are %d, '
-          '\n final %s cash are %d, '
-          '\n final %s cash are %d, \n' %
-          (list(cash.keys())[0], list(cash.values())[0],
-           list(cash.keys())[1], list(cash.values())[1],
-           list(cash.keys())[2], list(cash.values())[2]))
+    for i in range(len(list(cash.keys()))):
+        print('final', list(cash.keys())[i], 'cash: $', list(cash.values())[i])
     print('You made:', sum(total.values()) - num_stocks * 100000)
