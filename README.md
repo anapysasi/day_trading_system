@@ -12,6 +12,11 @@ In this project we simulate a day trading strategy, where we get relevant stock 
 
 Using the stock data, we calcultate different features to fit it to a logistic regression model. We recalculate the model every time we receive new data. This way we pretend to predict the values of the stocks and buy or sell based on the regression's outputs.
 
+In the visual below, the terminal has real-time stock info by the minute (simulated to speed things up) whereas the console is displaying all buy and sell orders along with total $, which is calculated by adding up holdings + cash. 
+
+![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/DEMOO.gif)
+<img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="320" height="400">
+
 ---
 
 ## Installation Guide
@@ -63,24 +68,43 @@ The data from the server is sent as dictionaries. Each minute's data for each st
 
 Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
+#### File `get_all_features.py`
+
+This file chooses the most important features for the logistic regression. It first adds all features calculated in `feature_engineering.py` as new columns to the initial data. Then it fits the model to the logistic regression and gives an importance score for each feature. It runs this for each one of the stock on the S&P 500 and stores this information in a dataframe. At the end in groups by features and it averages the restults. The resulting dataframe is returned with the values ordered from most to less important.
+
+Note that since the logisitc regression has only binary values, the coefficients are both positive and negative. The positive scores indicate a feature that predicts class 1, whereas the negative scores indicate a feature that predicts class 0.
+
 #### File: `feature_engineering.py`
 
 Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
 #### File: `get_all_features.py`
 
-Calculates the most importatn features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
+Calculates the most important features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
 
-#### File `trading_strategy.py`
+#### File `trading_strategy1.py`
 
-Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+Gets the original data with all the features (`open - close`, `high - low`, `volume`, `price`, `awesome_oscillator`, `daily_log_return`, `change`, `min10`, `hband_indicator`, and `lband_indicator`) and fits a model with it. It uses Logistic Regression to predict if the price the following period is going to be higher or lower than the current period and then makes a decision to buy, sell, or hold. 
 
-#### File: `market_actions.py`
+#### File `trading_strategy2.py`
 
-Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings, and the cash.
+Gets the original data with limited features (`awesome_oscillator`, `hband_indicator`, `lband_indicator`) and fits a model with it. It uses an ensemble between the awesome oscillator and the high and low bollinger bands to make a decision to buy, sell, or hold. 
+
+#### File `market_actions1.py`
+
+Is automatically used with `trading_strategy1.py` (when user selects strategy 1) and is responsible for sending an order and calculating the total, the holdings, and the cash.
+
+#### File `market_actions2.py`
+
+Is automatically used with `trading_strategy2.py` (when user selects strategy 2) and is responsible for sending an order and calculating the total, the holdings, and the cash.
+
 
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn1"  class="footnote-item"><p>Data obtained from this <a href="https://www.slickcharts.com/sp500" title="Title">source</a>. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
+       
+#### File use_case.py
+
+Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
