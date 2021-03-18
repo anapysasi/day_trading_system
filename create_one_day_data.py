@@ -33,7 +33,6 @@ def create_df(day, save=False):
 
     for i in range(1, len(symbols)):
         data = yf.Ticker(symbols[i])
-        print(i, symbols[i])
         df = data.history(day, interval='1m')
         df['Symbol'] = [symbols[i]]*df.shape[0]
         df0 = df0.append(df)
