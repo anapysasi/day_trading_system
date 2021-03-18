@@ -75,11 +75,11 @@ Gets the dataframe from `create_df.py` and it calculates the following features:
 
 #### File: `get_all_features.py`
 
-Calculates the most importatn features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
+Calculates the most important features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
 
 #### File `trading_strategy1.py`
 
-Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+Gets the original data with all the features (`open - close`, `high - low`, `volume`, `price`, `awesome_oscillator`, `daily_log_return`, `change`, `min10`, `hband_indicator`, and `lband_indicator`) and fits a model with it. It uses Logistic Regression to predict if the price the following period is going to be higher or lower than the current period and then makes a decision to buy, sell, or hold. 
 
 #### File `trading_strategy2.py`
 
