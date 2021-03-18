@@ -77,9 +77,22 @@ Gets the dataframe from `create_df.py` and it calculates the following features:
 
 Calculates the most importatn features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
 
-#### File `trading_strategy.py`
+#### File `trading_strategy1.py`
 
 Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+
+#### File `trading_strategy2.py`
+
+Gets the original data with limited features (awesome_oscillator, hband_indicator, lband_indicator) and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+
+#### File `market_actions1.py`
+
+Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+
+#### File `market_actions2.py`
+
+Gets the original data with limited features (awesome_oscillator, hband_indicator, lband_indicator) and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+
 
 #### File: `market_actions.py`
 
