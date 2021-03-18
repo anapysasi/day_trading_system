@@ -10,11 +10,12 @@ import yfinance as yf
 from openpyxl import load_workbook
 
 
-def create_df(day, save=False):
+def create_df(day, save=False, datetime_index=False):
     """
     creates a dataframe with the data of the 500 stocks in the S&P 500 by minute for the specified day.
     :param day: The format must be 'YYYY-MM-DD'. You can only choose one day within the last 7 days.
     :param save: Determines if you want to save the data, in that case set True. Default false
+    :param datetime_index: if true returns a dataframe with the DateTime column as the index. Default False.
     :return data of that day for the stocks.
     """
     data = load_workbook('SPY500.xlsx')
@@ -40,4 +41,10 @@ def create_df(day, save=False):
     if save is True:
         df0.to_csv('OneDayData%s.csv' % day)
 
-    return df0
+    if datetime_index is True:
+        return pd.DataFrame(df0)
+
+    if datetime_index is False:
+        df0 = pd.DataFrame(df0)
+        df0 = df0.reset_index()
+        return df0

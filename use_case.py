@@ -1,6 +1,6 @@
-import pandas as pd
 import trading_strategy2 as ts
 import market_actions_strategy2 as ma
+from create_one_day_data import create_df
 
 
 list1 = ['AAPL', 'MSFT', 'AMZN', 'FB', 'GOOGL', 'GOOG', 'TSLA', 'BRK-B', 'JPM', 'JNJ', 'V', 'DIS', 'NVDA', 'UNH', 'MA', 'PG', 'PYPL', 'HD', 'BAC', 'INTC', 'CMCSA', 'NFLX', 'XOM', 'VZ', 'ADBE', 'ABT', 'T', 'CRM', 'CVX', 'ABBV', 'AVGO', 'CSCO', 'KO', 'PFE', 'MRK', 'WMT', 'PEP', 'TMO', 'NKE', 'LLY', 'ACN', 'TXN', 'MDT', 'QCOM', 'MCD', 'WFC', 'COST', 'NEE', 'HON', 'DHR', 'UNP', 'BMY', 'C', 'AMGN', 'PM', 'LIN', 'SBUX', 'ORCL', 'CAT', 'LOW', 'MS', 'UPS', 'BA', 'GS', 'GE', 'DE', 'RTX', 'AMAT', 'IBM', 'NOW', 'INTU', 'MU', 'AMD', 'MMM', 'BLK', 'AMT', 'BKNG', 'SCHW', 'TGT', 'CHTR', 'CVS', 'AXP', 'ISRG', 'FIS', 'LRCX', 'LMT', 'MO', 'SYK', 'SPGI', 'TJX', 'GILD', 'TFC', 'MDLZ', 'CI', 'ANTM', 'ADP', 'ATVI', 'ZTS', 'CB', 'PLD']
@@ -13,71 +13,68 @@ list4 = ['PPL', 'QRVO', 'TSN', 'CCL', 'KSU', 'VTR', 'RF', 'NTRS', 'EFX', 'OKE', 
 
 list5 = ['AAL', 'SJM', 'LB', 'DVN', 'LYV', 'BIO', 'PKG', 'CHRW', 'JBHT', 'EVRG', 'LUMN', 'UDR', 'PHM', 'HAS', 'WHR', 'LDOS', 'HST', 'FFIV', 'TPR', 'LW', 'PWR', 'XRAY', 'FBHS', 'NLOK', 'TXT', 'LNT', 'WRK', 'JKHY', 'FOXA', 'L', 'LKQ', 'SNA', 'BWA', 'HWM', 'FANG', 'AAP', 'CBOE', 'CNP', 'ATO', 'MHK', 'LNC', 'IPG', 'MOS', 'IRM', 'ALLE', 'WRB', 'UHS', 'CF', 'RE', 'WU', 'CMA', 'NCLH', 'PNR', 'CPB', 'NWSA', 'GL', 'NRG', 'RHI', 'HSIC', 'MRO', 'NWL', 'ZION', 'REG', 'DISCA', 'IVZ', 'TAP', 'NI', 'IPGP', 'ALK', 'AOS', 'NLSN', 'KIM', 'PNW', 'DISH', 'JNPR', 'PBCT', 'DVA', 'APA', 'COG', 'ROL', 'AIZ', 'BEN', 'HII', 'PVH', 'FLIR', 'FRT', 'VNO', 'SEE', 'DXC', 'HBI', 'NOV', 'LEG', 'RL', 'HFC', 'PRGO', 'UNM', 'GPS', 'SLG', 'FOX', 'FLS']
 
+lst_days = ['2021-03-18', '2021-03-17', '2021-03-16', '2021-03-15', '2021-03-14', '2021-03-13', '2021-03-12']
+lst_stocks = list1[:20]
+for i in list2[:20]:
+    lst_stocks.append(i)
+for i in list3[:20]:
+    lst_stocks.append(i)
+for i in list4[:20]:
+    lst_stocks.append(i)
+for i in list5[:20]:
+    lst_stocks.append(i)
+
 
 if __name__ == '__main__':
 
-    strategy_dic = {}
-    market_dic = {}
-    dic = {}
-    total = {}
-    holdings = {}
-    cash = {}
-    news = {}
-    reader = pd.read_csv('OneDayData.csv')
-    symbols = list5
-    num_to_select = 100
-    list_of_random_items = symbols
-    counter = 0
+    for day in lst_days:
+        reader = create_df(day)
+        average_price = (reader.mean(axis=0, numeric_only=True))['Close']
+        print('The mean price of the stocks on', day, 'is', average_price)
 
-    length = []
-    for i in range(num_to_select):
-        N = len(reader[reader['Symbol'] == list_of_random_items[i]])
-        length.append(N)
+        strategy_dic = {}
+        market_dic = {}
+        dic = {}
+        total = {}
+        holdings = {}
+        cash = {}
+        news = {}
+        symbols = lst_stocks
+        num_to_select = 100
+        list_of_random_items = symbols
+        counter = 0
 
-    N = min(length)
-
-    for j in range(N):
+        length = []
         for i in range(num_to_select):
-            send = reader[reader['Symbol'] == list_of_random_items[i]]
-            send = send.iloc[j]
-            send = send.to_dict()
+            N = len(reader[reader['Symbol'] == list_of_random_items[i]])
+            length.append(N)
 
-            counter += 1
-            if counter < (num_to_select + 1):
-                strategy_dic['strategy' + str(send["Symbol"])] = ts.Strategy()
-                market_dic['market' + str(send["Symbol"])] = ma.MarketActions(
-                    strategy_dic['strategy' + str(send["Symbol"])])
+        N = min(length)
 
-            try:
+        for j in range(N):
+            for i in range(num_to_select):
+                send = reader[reader['Symbol'] == list_of_random_items[i]]
+                send = send.iloc[j]
+                send = send.to_dict()
+
+                counter += 1
+                if counter < (num_to_select + 1):
+                    strategy_dic['strategy' + str(send["Symbol"])] = ts.Strategy()
+                    market_dic['market' + str(send["Symbol"])] = ma.MarketActions(
+                        strategy_dic['strategy' + str(send["Symbol"])])
+
                 dic['_action' + str(send["Symbol"])] =\
                     market_dic['market' + str(send["Symbol"])].received_market_data(send)
                 total[str(send["Symbol"])], holdings[str(send["Symbol"])], \
                     cash[str(send["Symbol"])], news[str(send["Symbol"])] = \
                     market_dic['market' + str(send["Symbol"])].action_buy_sell_hold(
                         send, dic['_action' + str(send["Symbol"])])
-            except:
-                print(send['Datetime'], send["Symbol"])
+
+            if list(news.values()) == [None] * num_to_select:
                 pass
+            else:
+                sum_total = sum(total.values())
+                sum_cash = sum(cash.values())
+                sum_holdings = sum(holdings.values())
 
-        if list(news.values()) == [None] * num_to_select:
-            pass
-        else:
-            for i in range(len(list(news.values()))):
-                if list(news.values())[i] is not None:
-                    print(list(news.keys())[i], ':', list(news.values())[i])
-            sum_total = sum(total.values())
-            sum_cash = sum(cash.values())
-            sum_holdings = sum(holdings.values())
-            print('total = %d, holding = %d, cash = %d' %
-                  (sum_total, sum_holdings, sum_cash))
-
-    print('---------------------')
-    for i in range(len(list(total.keys()))):
-        print('final', list(total.keys())[i], 'total: $', list(total.values())[i])
-    print('---------------------')
-    for i in range(len(list(holdings.keys()))):
-        print('final', list(holdings.keys())[i], 'holdings: $', list(holdings.values())[i])
-    print('---------------------')
-    for i in range(len(list(cash.keys()))):
-        print('final', list(cash.keys())[i], 'cash: $', list(cash.values())[i])
-    print('You made:', sum(total.values()) - num_to_select * 100000)
+        print('You made:', sum(total.values()) - num_to_select * 100000)
