@@ -8,13 +8,13 @@ Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course a
 
 ## Description:
 
-In this project we simulate a day trading stragety, in which we are getting the data every minute from a server.
+In this project we simulate a day trading strategy, where we get relevant stock data every minute from a simulated server.
 
-Using this data, we calcultate different features to fit it to a regression model. We recalculate the model every time we receive new data. This way we pretend to predit the values of the stocks and buy or sell when is most convenient.
+Using the stock data, we calcultate different features to fit it to a logistic regression model. We recalculate the model every time we receive new data. This way we pretend to predict the values of the stocks and buy or sell based on the regression's outputs.
 
 ---
 
-## Instalation Guide
+## Installation Guide
 
 ```python
 pip3 install gitpython
@@ -28,11 +28,11 @@ Repo.clone_from("https://github.com/anapysasi/day_trading_system", "folderToSave
 
 #### File: `create_one_day_data.py`
 
-This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days and it will take the minute data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
+This file creates the data needed to run the model. You can choose what day you want to trade. It has to be a day within the last 7 days and the output file will have minute level data for all the stocks in the [S&P 500](https://github.com/anapysasi/day_trading_system/blob/main/SPY500.xlsx) for that particular day<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>
 
 #### File: `OneDayData.csv`
 
-Data used to test the model. Corresponds to minute the data from stocks in the S&P 500 for the day **2021-03-09**.
+Data used to test the model. Corresponds to minute level data from stocks in the S&P 500 for the day **2021-03-09** (day can be altered and set to whatever the user desires).
 
 ### Client server :
 
@@ -40,20 +40,20 @@ We use the TCP protocol in the communication of the client-server model.
 
 #### File: `tcp_server.py`
 
-Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute data to the client. The data is sent by minute.
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
 
 #### File: `tcp_client.py`
 
-The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell or hold order for each one of the different stocks that are being trade. Assumptions:
+The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell, or hold order for each one of the different stocks that are being traded. Assumptions:
 
-* When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks.
-* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000">
+* When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000"> (This is an arbitrary number and can be changed fairly easily)
 
 ### The following files are used in the model:
 
 #### File: `create_df.py`
 
-The data from the server is send as dictionaries. It looks something like this:
+The data from the server is sent as dictionaries. Each minute's data for each stock looks like this:
 
 ```python
 {'Datetime': '2021-03-09 15:59:00-05:00', 'Open': 214.6999969482422, 
@@ -61,19 +61,19 @@ The data from the server is send as dictionaries. It looks something like this:
        'Volume': 33963, 'Dividends': 0, 'Stock Splits': 0, 'Symbol': 'ECL'}
 ```
 
-Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work woth them.
+Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
 #### File: `feature_engineering.py`
 
-Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5-10 and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
+Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
 #### File `trading_strategy.py`
 
-Gets the original data with all the features and fits a model with it. It also predits the following value using said model and decides wheter if it holds, buy or sell.
+Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
 
 #### File: `market_actions.py`
 
-Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings and the cash.
+Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings, and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">

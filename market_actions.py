@@ -5,7 +5,7 @@ Sends a sell, buy or hold order and calculates the total, the holdings and the c
 
 class DIRECTION:
     """
-    Class fo the different orders.
+    Class for the different orders.
     """
     BUY = 1
     SELL = -1
