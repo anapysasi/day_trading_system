@@ -68,7 +68,7 @@ The data from the server is sent as dictionaries. Each minute's data for each st
 
 Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
-# Add the info about changes on features engineering. Info about get_all_features.py
+# Add the info about changes on features engineering. Info about get_all_features.py create_one_day_data and upload use_case
 
 #### File `get_all_features.py`
 
