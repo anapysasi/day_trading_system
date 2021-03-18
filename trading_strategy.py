@@ -1,3 +1,8 @@
+"""
+Gets the original data with all the features and fits a model with it.
+It also predicts the following value using said model and decides whether it holds, buys, or sells.
+"""
+
 from market_actions import DIRECTION
 from create_df import data_to_df
 from sklearn.linear_model import LogisticRegression
@@ -25,18 +30,16 @@ class Strategy:
         self.high_low = list()
         self.open_close = list()
         self.price = list()
+        self.awesome_oscillator = list()
+        self.daily_log_return = list()
+        self.Change = list()
         self.Volatility = list()
-        self.momentum = list()
-        self.rsi = list()
-        self.macd = list()
-        self.min5 = list()
         self.min10 = list()
-        self.min30 = list()
-        self.change = list()
-        self._return = list()
-        self.vol_pct_change = list()
+        self.hband_indicator = list()
+        self.lband_indicator = list()
         self.y = list()
-        self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=1000)
+        self.model = LogisticRegression(solver='lbfgs', random_state=0, max_iter=4000)
+
 
     def prepare_dataframe(self, original):
         """
@@ -76,16 +79,13 @@ class Strategy:
         self.price.append(price_update['Close'])
         self.high_low.append(price_update['High'] - price_update['Low'])
         self.open_close.append(price_update['Open'] - price_update['Close'])
+        self.awesome_oscillator.append(price_update['awesome_oscillator'])
+        self.daily_log_return.append(price_update['daily_log_return'])
+        self.Change.append(price_update['Change'])
         self.Volatility.append(price_update['Volatility'])
-        self.momentum.append(price_update['Momentum'])
-        self.rsi.append(price_update['RSI'])
-        self.macd.append(price_update['MACD'])
-        self.min5.append(price_update['5min'])
-        self.min10.append(price_update['10min'])
-        self.min30.append(price_update['30min'])
-        self.change.append(price_update['Change'])
-        self._return.append(price_update['Return'])
-        self.vol_pct_change.append(price_update['volume change_pct'])
+        self.min10.append(price_update['min10'])
+        self.hband_indicator.append(price_update['hband_indicator'])
+        self.lband_indicator.append(price_update['lband_indicator'])
 
         if len(self.price) > 1:
             if self.price[len(self.price) - 1] > self.price[len(self.price) - 2]:
@@ -97,10 +97,10 @@ class Strategy:
 
         if len(self.price) > 40:
             fit_x = pd.DataFrame({'Open-Close': self.open_close[30:], 'High-Low': self.high_low[30:],
-                                  'Volatility': self.Volatility[30:], 'RSI': self.rsi[30:],
-                                  'Momentum': self.momentum[30:], 'MACD': self.macd[30:], '5min': self.min5[30:],
-                                  '10min': self.min10[30:], '30min': self.min30[30:], 'Change': self.change[30:],
-                                  'Return': self._return[30:], 'VolChangePct': self.vol_pct_change[30:]})
+                                  'Change': self.Change[30:], 'Volatility': self.Volatility[30:],
+                                  'min10': self.min10[30:], 'hband_indicator': self.hband_indicator[30:],
+                                  'lband_indicator': self.lband_indicator[30:], 'awesome_oscillator': self.awesome_oscillator[30:],
+                                  'daily_log_return': self.daily_log_return[30:]})
             fit_y = pd.DataFrame({'Predictor': self.y[30:]})
             self.model.fit(fit_x, fit_y.values.ravel())
 
@@ -116,9 +116,9 @@ class Strategy:
         if len(self.price) > 40:
             predict_value = self.model.predict(
                 [[price_update['Open'] - price_update['Close'], price_update['High'] - price_update['Low'],
-                  price_update['Volatility'],  price_update['MACD'], price_update['RSI'], price_update['Momentum'],
-                  price_update['5min'], price_update['10min'], price_update['30min'], price_update['Change'],
-                  price_update['Return'], price_update['volume change_pct']]])
+                  price_update['Change'], price_update['Volatility'], price_update['min10'],
+                  price_update['hband_indicator'], price_update['lband_indicator'],
+                  price_update['awesome_oscillator'], price_update['daily_log_return']]])
             if predict_value == 1 and self.buy:
                 self.sell = True
                 self.buy = False

@@ -5,66 +5,14 @@ percentage volume change, upper and lower bands and z-score.
 """
 
 import pandas as pd
+import numpy as np
+from ta.momentum import RSIIndicator
+from ta.momentum import PercentagePriceOscillator
+from ta.trend import macd
+from ta.momentum import awesome_oscillator
+from ta.others import daily_return
+from ta.volatility import BollingerBands
 pd.set_option('display.max_columns', None)
-
-
-def momentum(data, n_days):
-    """
-    Calculates the momentum of a stock for n_days
-    """
-    m = [None] * n_days
-    for i in range(len(data) - n_days):
-        m.append(data[i] - n_days)
-    return m[-1]
-
-
-def rsi(stock):
-    """
-    Calculates the Relative Strength Index (RSI)
-    :param stock: dataframe of stocks
-    :return: RSI of said stock
-    """
-    gain = lambda x: x if x > 0 else 0  # works as a map function or in list comprehension
-    loss = lambda x: abs(x) if x < 0 else 0  # works as a map function or in list comprehension
-    rsi_list = [None] * 14
-    stock = stock.Change
-
-    # Calculating RSI
-    avg_gain = sum([i for i in stock[1:15] if i > 0]) / 14
-    avg_loss = sum([abs(i) for i in stock[1:15] if i < 0]) / 14
-
-    if avg_loss == 0:
-        rsi_list.append(0)
-    else:
-        rs = avg_gain / avg_loss
-        rsi_val = 100 - (100 / (1 + rs))
-        rsi_list.append(rsi_val)
-
-    for i in range(15, len(stock)):
-        avg_gain = (avg_gain * 13 + gain(stock[i])) / 14
-        avg_loss = (avg_loss * 13 + loss(stock[i])) / 14
-
-        if avg_loss == 0:
-            rsi_list.append(0)
-        else:
-            rs = avg_gain / avg_loss
-            rsi_val = 100 - (100 / (1 + rs))
-            rsi_list.append(rsi_val)
-
-    return rsi_list[-1]
-
-
-def macd(stock):
-    """
-    Calculates the Moving Average Convergence/Divergence
-    :param stock: dataframe of stocks
-    :return: Moving Average Convergence/Divergence of said stock
-    """
-    exp1 = stock.Close.ewm(span=12, adjust=False).mean()
-    exp2 = stock.Close.ewm(span=26, adjust=False).mean()
-    macd_val = exp1 - exp2
-    macd_signal = macd_val.ewm(span=9, adjust=False).mean()
-    return macd_val, macd_signal
 
 
 def features_df(stocks):
@@ -74,15 +22,19 @@ def features_df(stocks):
     :param stocks: dataframe of stocks
     :return: a dataframe with the different features of said stock
     """
+    stocks['rsi_vals'] = RSIIndicator(close=stocks.Close, window=10).rsi()
+    stocks['macd_vals'] = macd(stocks.Close, window_slow=26, window_fast=12)
+    stocks['Ppo'] = np.array(PercentagePriceOscillator(stocks.Close, window_slow=26, window_fast=12).ppo())
+    stocks['awesome_oscillator'] = awesome_oscillator(stocks.High, stocks.Low, window1=5, window2=29)
+    stocks['daily_log_return'] = daily_return(close=stocks.Close)
     stocks['Return'] = round(stocks['Close'] / stocks['Open'] - 1, 3)
     stocks['Change'] = (stocks.Close - stocks.Close.shift(1)).fillna(0)
     stocks['Volatility'] = stocks.Close.ewm(21).std()
-    stocks['5min'] = stocks.Close.rolling(5).mean()
-    stocks['10min'] = stocks.Close.rolling(10).mean()
-    stocks['30min'] = stocks.Close.rolling(30).mean()
-    stocks['volume change'] = (stocks.Volume - stocks.Volume.shift(1)).fillna(0)
-    stocks['volume change_pct'] = stocks['volume change']/stocks['Volume']
-    stocks['Momentum'] = momentum(stocks.Close, 3)
-    stocks['RSI'] = rsi(stocks)
-    stocks['MACD'], stocks['MACD_Signal'] = macd(stocks)
+    stocks['min5'] = stocks.Close.rolling(5).mean()
+    stocks['min10'] = stocks.Close.rolling(10).mean()
+    stocks['min30'] = stocks.Close.rolling(30).mean()
+    stocks['hband_indicator'] = BollingerBands(close=stocks.Close).bollinger_hband_indicator()
+    stocks['lband_indicator'] = BollingerBands(close=stocks.Close).bollinger_lband_indicator()
+    stocks['Corr'] = stocks.Close.rolling(window=10).corr(stocks['min10'])
+
     return stocks.iloc[-1, :]
