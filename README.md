@@ -100,7 +100,7 @@ Is automatically used with `trading_strategy2.py` (when user selects strategy 2)
 
 ---
 
-#### File use_case.py
+#### File `use_case.py`
 
 Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
 
