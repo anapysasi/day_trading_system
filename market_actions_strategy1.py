@@ -1,5 +1,6 @@
 """
 Sends a sell, buy or hold order and calculates the total, the holdings and the cash.
+The predictions are made with strategy 1 (logistic regression strategy)
 """
 
 
@@ -34,9 +35,11 @@ class MarketActions:
 
     def received_market_data(self, price_update):
         """
-        Gets the prediction from trading_strategy.py and sends an order.
+        Gets the prediction from trading_strategy_strategy1.py and sends an order.
         :param price_update: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
-                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol',
+                             'Change', 'Volatility', 'min10', 'hband_indicator', 'lband_indicator',
+                             'awesome_oscillator', 'daily_log_return' as columns.
         :return: the strings: 'buy', 'sell' or 'hold' depending on the predictions.
         """
         if self.strategy:
@@ -56,7 +59,9 @@ class MarketActions:
         Gets the order from received_market_data and makes the transaction.
         It also calculates the total, the holdings and the resulting cash.
         :param price_update: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
-                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
+                             'Volume', 'Dividends', 'Stock Splits' and 'Symbol',
+                             'Change', 'Volatility', 'min10', 'hband_indicator', 'lband_indicator',
+                             'awesome_oscillator', 'daily_log_return' as columns.
         :param _action: order received from received_market_data
         :return: total, holdings, cash, and in case there was a sell or a buy
                  it also gives the information of the money spends or gained.

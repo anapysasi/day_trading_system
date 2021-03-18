@@ -3,7 +3,7 @@ Gets the original data with all the features and fits a model with it.
 It also predicts the following value using said model and decides whether it holds, buys, or sells.
 """
 
-from market_actions import DIRECTION
+from market_actions_strategy1 import DIRECTION
 from create_df import data_to_df
 from sklearn.linear_model import LogisticRegression
 from feature_engineering import features_df
@@ -62,10 +62,12 @@ class Strategy:
         :param original: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                          'Volume', 'Dividends', 'Stock Splits' and 'Symbol' as columns
         :return: dataframe with the data that has been received at the present and all the past values
-        adding the columns calculated in features_df.
+        adding the columns calculated in features_df (awesome_oscillator_val, daily_log_return, change,
+                                   volatility, min10=True, hband_indicator, lband_indicator).
         """
         data_df = self.prepare_dataframe(original)
-        price_update = features_df(data_df)
+        price_update = features_df(data_df, awesome_oscillator_val=True, daily_log_return=True, change=True,
+                                   volatility=True, min10=True, hband_indicator=True, lband_indicator=True)
         return price_update
 
     def fit(self, original):

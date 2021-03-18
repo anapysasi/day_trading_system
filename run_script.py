@@ -1,6 +1,6 @@
 import pandas as pd
-import trading_strategy as ts
-import market_actions as ma
+import trading_strategy2 as ts
+import market_actions_strategy2 as ma
 
 
 list1 = ['AAPL', 'MSFT', 'AMZN', 'FB', 'GOOGL', 'GOOG', 'TSLA', 'BRK-B', 'JPM', 'JNJ', 'V', 'DIS', 'NVDA', 'UNH', 'MA', 'PG', 'PYPL', 'HD', 'BAC', 'INTC', 'CMCSA', 'NFLX', 'XOM', 'VZ', 'ADBE', 'ABT', 'T', 'CRM', 'CVX', 'ABBV', 'AVGO', 'CSCO', 'KO', 'PFE', 'MRK', 'WMT', 'PEP', 'TMO', 'NKE', 'LLY', 'ACN', 'TXN', 'MDT', 'QCOM', 'MCD', 'WFC', 'COST', 'NEE', 'HON', 'DHR', 'UNP', 'BMY', 'C', 'AMGN', 'PM', 'LIN', 'SBUX', 'ORCL', 'CAT', 'LOW', 'MS', 'UPS', 'BA', 'GS', 'GE', 'DE', 'RTX', 'AMAT', 'IBM', 'NOW', 'INTU', 'MU', 'AMD', 'MMM', 'BLK', 'AMT', 'BKNG', 'SCHW', 'TGT', 'CHTR', 'CVS', 'AXP', 'ISRG', 'FIS', 'LRCX', 'LMT', 'MO', 'SYK', 'SPGI', 'TJX', 'GILD', 'TFC', 'MDLZ', 'CI', 'ANTM', 'ADP', 'ATVI', 'ZTS', 'CB', 'PLD']
@@ -24,8 +24,8 @@ if __name__ == '__main__':
     cash = {}
     news = {}
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list5[50:]
-    num_to_select = 50
+    symbols = list5
+    num_to_select = 100
     list_of_random_items = symbols
     counter = 0
 

@@ -1,14 +1,14 @@
 """
-Receives the data from the server and it fits it to a regression model to make the predictions.
-Based on the predictions, sends a buy, sell or hold order for each one of the different stocks that are being sent.
+Receives the data from the server and it follows a strategy to make the predictions. There are two strategies available:
+* Logistic regression (set strategy = 1)
+* Oscillator and bands ensemble strategy (set strategy = 2). Default value.
 
+Based on the predictions, sends a buy, sell or hold order for each one of the different stocks that are being sent.
 Makes the following assumptions:
 * Always exchanges 10 stocks (buy or sell).
 * Initial capital per stock $100000
 """
 import socket
-import trading_strategy as ts
-import market_actions as ma
 import ast
 
 HOST, PORT = "localhost", 9995
@@ -21,6 +21,14 @@ total = {}
 holdings = {}
 cash = {}
 news = {}
+strategy = 2  # change this value depending on what strategy to use
+
+if strategy == 1:
+    import trading_strategy_strategy1 as ts
+    import market_actions_strategy1 as ma
+else:
+    import trading_strategy2 as ts
+    import market_actions_strategy2 as ma
 
 # Create a socket (SOCK_STREAM means a TCP socket)
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
