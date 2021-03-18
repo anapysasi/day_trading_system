@@ -68,8 +68,6 @@ The data from the server is sent as dictionaries. Each minute's data for each st
 
 Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
-# Add the info about changes on features engineering. Info about get_all_features.py create_one_day_data and upload use_case
-
 #### File `get_all_features.py`
 
 This file chooses the most important features for the logistic regression. It first adds all features calculated in `feature_engineering.py` as new columns to the initial data. Then it fits the model to the logistic regression and gives an importance score for each feature. It runs this for each one of the stock on the S&P 500 and stores this information in a dataframe. At the end in groups by features and it averages the restults. The resulting dataframe is returned with the values ordered from most to less important.
@@ -106,3 +104,7 @@ Is automatically used with `trading_strategy2.py` (when user selects strategy 2)
 <ol class="footnotes-list">
 <li id="fn1"  class="footnote-item"><p>Data obtained from this <a href="https://www.slickcharts.com/sp500" title="Title">source</a>. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
+       
+#### File use_case.py
+
+Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
