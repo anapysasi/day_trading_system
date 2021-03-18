@@ -15,7 +15,7 @@ Using the stock data, we calcultate different features to fit it to a logistic r
 In the visual below, the terminal has real-time stock info by the minute (simulated to speed things up) whereas the console is displaying all buy and sell orders along with total $, which is calculated by adding up holdings + cash. 
 
 ![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/DEMOO.gif)
-<img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="300" height="500">
+<img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="320" height="400">
 
 
 ---
