@@ -65,6 +65,10 @@ The data from the server is sent as dictionaries. Each minute's data for each st
 
 Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
+# Add the info about the two strategies, changes on features engineering, trading_strategy1 and 2, market_actions1 and 2. Info about get_all_features.py
+
+#### File `get_all_features.py`
+
 #### File: `feature_engineering.py`
 
 Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
