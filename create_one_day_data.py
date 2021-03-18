@@ -9,28 +9,36 @@ import pandas as pd
 import yfinance as yf
 from openpyxl import load_workbook
 
-data = load_workbook('SPY500.xlsx')
-data = data['Sheet1']
-data = data.values
-columns = next(data)[0:]
 
-df = pd.DataFrame(data, columns=columns)
-Symbols = df['Symbol']
+def create_df(day, save=False):
+    """
+    creates a dataframe with the data of the 500 stocks in the S&P 500 by minute for the specified day.
+    :param day: The format must be 'YYYY-MM-DD'. You can only choose one day within the last 7 days.
+    :param save: Determines if you want to save the data, in that case set True. Default false
+    :return data of that day for the stocks.
+    """
+    data = load_workbook('SPY500.xlsx')
+    data = data['Sheet1']
+    data = data.values
+    columns = next(data)[0:]
 
-i = 0
-data0 = yf.Ticker(Symbols[i])
+    df = pd.DataFrame(data, columns=columns)
+    symbols = df['Symbol']
 
-# You can only choose one day within the last 7 days.
-# The format must be 'YYYY-MM-DD'
-day = # input
-df0 = data0.history(day, interval='1m')
-df0['Symbol'] = [Symbols[i]]*df0.shape[0]
+    i = 0
+    data0 = yf.Ticker(symbols[i])
 
-for i in range(1, len(Symbols)):
-    data = yf.Ticker(Symbols[i])
-    print(i, Symbols[i])
-    df = data0.history(day, interval='1m')
-    df['Symbol'] = [Symbols[i]]*df.shape[0]
-    df0 = df0.append(df)
+    df0 = data0.history(day, interval='1m')
+    df0['Symbol'] = [symbols[i]]*df0.shape[0]
 
-df0.to_csv('OneDayData%s.csv' % day)
+    for i in range(1, len(symbols)):
+        data = yf.Ticker(symbols[i])
+        print(i, symbols[i])
+        df = data.history(day, interval='1m')
+        df['Symbol'] = [symbols[i]]*df.shape[0]
+        df0 = df0.append(df)
+
+    if save is True:
+        df0.to_csv('OneDayData%s.csv' % day)
+
+    return df0
