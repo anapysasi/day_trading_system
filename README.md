@@ -67,6 +67,10 @@ Each feature is converted to individual lists and this file converts these lists
 
 Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
+#### File: `get_all_features.py`
+
+Calculates the most importatn features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
+
 #### File `trading_strategy.py`
 
 Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
