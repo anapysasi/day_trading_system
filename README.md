@@ -72,6 +72,10 @@ Each feature is converted to individual lists and this file converts these lists
 
 #### File `get_all_features.py`
 
+This file chooses the most important features for the logistic regression. It first adds all features calculated in `feature_engineering.py` as new columns to the initial data. Then it fits the model to the logistic regression and gives an importance score for each feature. It runs this for each one of the stock on the S&P 500 and stores this information in a dataframe. At the end in groups by features and it averages the restults. The resulting dataframe is returned with the values ordered from most to less important.
+
+Note that since the logisitc regression has only binary values, the coefficients are both positive and negative. The positive scores indicate a feature that predicts class 1, whereas the negative scores indicate a feature that predicts class 0.
+
 #### File: `feature_engineering.py`
 
 Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
