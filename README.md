@@ -18,7 +18,7 @@ In the visual below, the terminal has real-time stock info by the minute (simula
 <img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="320" height="400">
 
 ![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/Compressed%20DEMOO.mp4)
-<img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="320" height="400">
+<width="320" height="400">
 
 
 ---
