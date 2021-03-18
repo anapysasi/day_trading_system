@@ -12,6 +12,8 @@ In this project we simulate a day trading strategy, where we get relevant stock 
 
 Using the stock data, we calcultate different features to fit it to a logistic regression model. We recalculate the model every time we receive new data. This way we pretend to predict the values of the stocks and buy or sell based on the regression's outputs.
 
+![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/Demo.gif)
+
 ---
 
 ## Installation Guide
