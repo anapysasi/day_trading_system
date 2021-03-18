@@ -24,7 +24,7 @@ news = {}
 strategy = 2  # change this value depending on what strategy to use
 
 if strategy == 1:
-    import trading_strategy_strategy1 as ts
+    import trading_strategy1 as ts
     import market_actions_strategy1 as ma
 else:
     import trading_strategy2 as ts

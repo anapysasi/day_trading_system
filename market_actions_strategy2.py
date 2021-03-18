@@ -35,7 +35,7 @@ class MarketActions:
 
     def received_market_data(self, price_update):
         """
-        Gets the prediction from trading_strategy_strategy1.py and sends an order.
+        Gets the prediction from trading_strategy1.py and sends an order.
         :param price_update: dictionary with: 'Datetime', 'Open', 'High', 'Low', 'Close',
                              'Volume', 'Dividends', 'Stock Splits' and 'Symbol',
                              'awesome_oscillator', 'h_band_indicator' and 'l_band_indicator' as columns.
