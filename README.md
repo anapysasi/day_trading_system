@@ -65,7 +65,7 @@ The data from the server is sent as dictionaries. Each minute's data for each st
 
 Each feature is converted to individual lists and this file converts these lists into a dataframe to be able to work with them.
 
-# Add the info about the two strategies, changes on features engineering, trading_strategy1 and 2, market_actions1 and 2. Info about get_all_features.py
+# Add the info about the two strategies, changes on features engineering. Info about get_all_features.py
 
 #### File `get_all_features.py`
 
@@ -87,16 +87,12 @@ Gets the original data with limited features (awesome_oscillator, hband_indicato
 
 #### File `market_actions1.py`
 
-Gets the original data with all the features and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+Is automatically used with `trading_strategy1.py` (when user selects strategy 1) and is responsible for sending an order and calculating the total, the holdings, and the cash.
 
 #### File `market_actions2.py`
 
-Gets the original data with limited features (awesome_oscillator, hband_indicator, lband_indicator) and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+Is automatically used with `trading_strategy2.py` (when user selects strategy 2) and is responsible for sending an order and calculating the total, the holdings, and the cash.
 
-
-#### File: `market_actions.py`
-
-Depending on the output from `trading_strategy.py` sends an order and calculates the total, the holdings, and the cash.
 
 <hr class="footnotes-sep">
 <section class="footnotes">
