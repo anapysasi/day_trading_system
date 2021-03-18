@@ -98,13 +98,15 @@ Is automatically used with `trading_strategy1.py` (when user selects strategy 1)
 
 Is automatically used with `trading_strategy2.py` (when user selects strategy 2) and is responsible for sending an order and calculating the total, the holdings, and the cash.
 
+---
+
+#### File use_case.py
+
+Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
+
 
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn1"  class="footnote-item"><p>Data obtained from this <a href="https://www.slickcharts.com/sp500" title="Title">source</a>. <a href="#fnref1" class="footnote-backref">↩</a></p>
 </li>
-       
-#### File use_case.py
-
-Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
