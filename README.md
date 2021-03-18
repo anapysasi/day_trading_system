@@ -83,7 +83,7 @@ Gets the original data with all the features (`open - close`, `high - low`, `vol
 
 #### File `trading_strategy2.py`
 
-Gets the original data with limited features (awesome_oscillator, hband_indicator, lband_indicator) and fits a model with it. It also predicts the following value using said model and decides whether it holds, buys, or sells.
+Gets the original data with limited features (`awesome_oscillator`, `hband_indicator`, `lband_indicator`) and fits a model with it. It uses an ensemble between the awesome oscillator and the high and low bollinger bands to make a decision to buy, sell, or hold. 
 
 #### File `market_actions1.py`
 
