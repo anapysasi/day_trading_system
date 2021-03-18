@@ -165,7 +165,8 @@ class ThreadedServer(object):
             num_to_select = self.opt.stocks
             client.send(str(num_to_select).encode('utf-8'))
             # Random election of num_to_select Symbols
-            list_of_random_items = random.sample(symbols, num_to_select)
+            # list_of_random_items = random.sample(symbols, num_to_select)
+            list_of_random_items = ['V', 'AMZN', 'XOM']
             length = []
             for i in range(num_to_select):
                 n = len(reader[reader['Symbol'] == list_of_random_items[i]])

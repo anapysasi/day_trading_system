@@ -13,6 +13,7 @@ list4 = ['PPL', 'QRVO', 'TSN', 'CCL', 'KSU', 'VTR', 'RF', 'NTRS', 'EFX', 'OKE', 
 
 list5 = ['AAL', 'SJM', 'LB', 'DVN', 'LYV', 'BIO', 'PKG', 'CHRW', 'JBHT', 'EVRG', 'LUMN', 'UDR', 'PHM', 'HAS', 'WHR', 'LDOS', 'HST', 'FFIV', 'TPR', 'LW', 'PWR', 'XRAY', 'FBHS', 'NLOK', 'TXT', 'LNT', 'WRK', 'JKHY', 'FOXA', 'L', 'LKQ', 'SNA', 'BWA', 'HWM', 'FANG', 'AAP', 'CBOE', 'CNP', 'ATO', 'MHK', 'LNC', 'IPG', 'MOS', 'IRM', 'ALLE', 'WRB', 'UHS', 'CF', 'RE', 'WU', 'CMA', 'NCLH', 'PNR', 'CPB', 'NWSA', 'GL', 'NRG', 'RHI', 'HSIC', 'MRO', 'NWL', 'ZION', 'REG', 'DISCA', 'IVZ', 'TAP', 'NI', 'IPGP', 'ALK', 'AOS', 'NLSN', 'KIM', 'PNW', 'DISH', 'JNPR', 'PBCT', 'DVA', 'APA', 'COG', 'ROL', 'AIZ', 'BEN', 'HII', 'PVH', 'FLIR', 'FRT', 'VNO', 'SEE', 'DXC', 'HBI', 'NOV', 'LEG', 'RL', 'HFC', 'PRGO', 'UNM', 'GPS', 'SLG', 'FOX', 'FLS']
 
+
 if __name__ == '__main__':
 
     strategy_dic = {}
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     cash = {}
     news = {}
     reader = pd.read_csv('OneDayData.csv')
-    symbols = list2[50:]
+    symbols = list5[50:]
     num_to_select = 50
     list_of_random_items = symbols
     counter = 0
