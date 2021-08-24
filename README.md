@@ -42,14 +42,14 @@ We use the TCP protocol in the communication of the client-server model.
 
 #### File: `tcp_server.py`
 
-Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say n. Since we are simulating how the client-server would work, we randomly select n stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
 
 #### File: `tcp_client.py`
 
 The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell, or hold order for each one of the different stocks that are being traded. Assumptions:
 
-* When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks
-* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000"> (This is an arbitrary number and can be changed fairly easily)
+* When it buys or sells stocks, it always exchanges 10 stocks
+* In order to trade with this system the initial capital **per stock** must be $100,000 (This is an arbitrary number and can be changed fairly easily)
 
 ### The following files are used in the model:
 
