@@ -110,7 +110,7 @@ Terminal input:
 ```python
 user@User-MacBook-Pro day_trading_system % python tcp_server.py -p 9995 -f OneDayData.csv -t 1 -s 3
 ```
-where `s 3` is the signal send to the server to trade <img src="https://render.githubusercontent.com/render/math?math=\3"> stocks at the time.
+where `s 3` is the signal send to the server to trade 3 stocks at the time.
 
 ![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/DEMO.gif)
 ![](https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png)
