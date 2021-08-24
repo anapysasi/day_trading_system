@@ -1,6 +1,6 @@
 # day_trading_system
 
-### Authors: [Maggie Wu](https://github.com/MaggieWoo2), [Sambhav Jain](https://github.com/sambhavjain3211) and Ana Ysasi.
+### Authors: Ana Ysasi, [Sambhav Jain](https://github.com/sambhavjain3211) and [Maggie Wu](https://github.com/MaggieWoo2).
 
 Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course at the University of Chicago's Master of Science in Analytics.
 
