@@ -1,7 +1,8 @@
+################## THIS IS A WORK IN PROGRESS ##################
+
 import trading_strategy2 as ts
 import market_actions_strategy2 as ma
 from create_one_day_data import create_df
-
 
 list1 = ['AAPL', 'MSFT', 'AMZN', 'FB', 'GOOGL', 'GOOG', 'TSLA', 'BRK-B', 'JPM', 'JNJ', 'V', 'DIS', 'NVDA', 'UNH', 'MA', 'PG', 'PYPL', 'HD', 'BAC', 'INTC', 'CMCSA', 'NFLX', 'XOM', 'VZ', 'ADBE', 'ABT', 'T', 'CRM', 'CVX', 'ABBV', 'AVGO', 'CSCO', 'KO', 'PFE', 'MRK', 'WMT', 'PEP', 'TMO', 'NKE', 'LLY', 'ACN', 'TXN', 'MDT', 'QCOM', 'MCD', 'WFC', 'COST', 'NEE', 'HON', 'DHR', 'UNP', 'BMY', 'C', 'AMGN', 'PM', 'LIN', 'SBUX', 'ORCL', 'CAT', 'LOW', 'MS', 'UPS', 'BA', 'GS', 'GE', 'DE', 'RTX', 'AMAT', 'IBM', 'NOW', 'INTU', 'MU', 'AMD', 'MMM', 'BLK', 'AMT', 'BKNG', 'SCHW', 'TGT', 'CHTR', 'CVS', 'AXP', 'ISRG', 'FIS', 'LRCX', 'LMT', 'MO', 'SYK', 'SPGI', 'TJX', 'GILD', 'TFC', 'MDLZ', 'CI', 'ANTM', 'ADP', 'ATVI', 'ZTS', 'CB', 'PLD']
 

@@ -1,6 +1,6 @@
 # day_trading_system
 
-### Authors: Ana Ysasi, [Sambhav Jain](https://github.com/sambhavjain3211) and [Maggie Wu](https://github.com/MaggieWoo2).
+### Authors: [Maggie Wu](https://github.com/MaggieWoo2), [Sambhav Jain](https://github.com/sambhavjain3211) and Ana Ysasi.
 
 Final project for Dr. Sebastien Donadio's Real Time Intelligent Systems course at the University of Chicago's Master of Science in Analytics.
 
@@ -13,6 +13,9 @@ In this project we simulate a day trading strategy, where we get relevant stock 
 Using the stock data, we calcultate different features to fit it to a logistic regression model. We recalculate the model every time we receive new data. This way we pretend to predict the values of the stocks and buy or sell based on the regression's outputs.
 
 In the visual below, the terminal has real-time stock info by the minute (simulated to speed things up) whereas the console is displaying all buy and sell orders along with total $, which is calculated by adding up holdings + cash. 
+
+![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/DEMOO.gif)
+<img src="https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png" width="320" height="400">
 
 ---
 
@@ -42,14 +45,14 @@ We use the TCP protocol in the communication of the client-server model.
 
 #### File: `tcp_server.py`
 
-Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say n. Since we are simulating how the client-server would work, we randomly select n stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
+Sends the data to the client. In order to do so, it needs the client to introduce the number of stocks it wants to trade, lets say <img src="https://render.githubusercontent.com/render/math?math=n">. Since we are simulating how the client-server would work, we randomly select <img src="https://render.githubusercontent.com/render/math?math=n"> stocks and send the minute level data to the client. The data is sent every second for convenience and speed.
 
 #### File: `tcp_client.py`
 
 The client receives the data from the server and it fits it to a regression model to make the predictions. Based on these, it sends a buy, sell, or hold order for each one of the different stocks that are being traded. Assumptions:
 
-* When it buys or sells stocks, it always exchanges 10 stocks
-* In order to trade with this system the initial capital **per stock** must be $100,000 (This is an arbitrary number and can be changed fairly easily)
+* When it buys or sells stocks, it always exchanges <img src="https://render.githubusercontent.com/render/math?math=10"> stocks
+* In order to trade with this system the initial capital **per stock** must be <img src="https://render.githubusercontent.com/render/math?math=\$100,000"> (This is an arbitrary number and can be changed fairly easily)
 
 ### The following files are used in the model:
 
@@ -75,10 +78,6 @@ Note that since the logisitc regression has only binary values, the coefficients
 
 Gets the dataframe from `create_df.py` and it calculates the following features: momentum, relative strength index (RSI), moving average convergence/divergence, volatility, 5, 10, and 30 mins moving average, volume change, percentage volume change, upper and lower bands and z-score.
 
-#### File: `get_all_features.py`
-
-Calculates the most important features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
-
 #### File `trading_strategy1.py`
 
 Gets the original data with all the features (`open - close`, `high - low`, `volume`, `price`, `awesome_oscillator`, `daily_log_return`, `change`, `min10`, `hband_indicator`, and `lband_indicator`) and fits a model with it. It uses Logistic Regression to predict if the price the following period is going to be higher or lower than the current period and then makes a decision to buy, sell, or hold. 
@@ -97,23 +96,13 @@ Is automatically used with `trading_strategy2.py` (when user selects strategy 2)
 
 ---
 
+#### File: `log_reg_important_features.py`
+
+Calculates the most important features for all the 500 stocks. The final features taken in the model are: `min10`, `awesome_oscillator`, `Change`, `daily_log_return`, `Volatility`, `hband_indicator`, `lband_indicator`.
+
 #### File `use_case.py`
 
 Shows how the program can be used. It trades 100 stocks at the time for the past 7 days.
-
----
-
-## Ouput example
-
-Terminal input:
-
-```python
-user@User-MacBook-Pro day_trading_system % python tcp_server.py -p 9995 -f OneDayData.csv -t 1 -s 3
-```
-where `s 3` is the signal send to the server to trade 3 stocks at the time.
-
-![Demo of the code](https://github.com/anapysasi/day_trading_system/blob/main/DEMO.gif)
-![](https://github.com/anapysasi/day_trading_system/blob/main/result_sample.png)
 
 
 <hr class="footnotes-sep">
