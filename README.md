@@ -80,7 +80,7 @@ Gets the dataframe from `create_df.py` and it calculates the following features:
 
 #### File `trading_strategy1.py`
 
-Gets the original data with all the features (`open - close`, `high - low`, `volume`, `price`, `awesome_oscillator`, `daily_log_return`, `change`, `min10`, `hband_indicator`, and `lband_indicator`) and fits a model with it. It uses Logistic Regression to predict if the price the following period is going to be higher or lower than the current period and then makes a decision to buy, sell, or hold. 
+Gets the original data with all the features (`open - close`, `high - low`, `volume`, `price`, `awesome_oscillator`, `daily_log_return`, `change`, `min10`, `hband_indicator`, and `lband_indicator`) and fits a model with it. It uses Logistic Regression to predict if the price the following period is going to be higher or lower than the current period and then makes a decision to buy, sell, or hold. See `log_reg_important_features.py` for the chosen features. 
 
 #### File `trading_strategy2.py`
 
