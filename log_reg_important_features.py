@@ -17,17 +17,24 @@ from openpyxl import load_workbook
 
 # You need to choose what day you want to check.
 day = 'YYYY-MM-DD'
+lst = []
 
 data = load_workbook('SPY500.xlsx')
 data = data['Sheet1']
 data = data.values
 columns = next(data)[0:]
 df = pd.DataFrame(data, columns=columns)
-Symbols = df['Symbol']
-lst = []
+Symbols = list(df['Symbol'])
 
-for k in range(500):
-    if k == 344:  # This index gives an error when fitting the model
+deleted_stocks = ['ALXN', 'MXIM', 'VAR', 'LB', 'COG', 'FLIR']
+for element in deleted_stocks:
+    if element in Symbols:
+        print('Deleted', element, '. Symbol may be delisted from yfinance.')
+        Symbols.remove(element)
+N = len(Symbols)
+
+for k in range(N):
+    if k == 465:  # This index gives an error when fitting the model
         pass
     else:
         print(k, Symbols[k])
